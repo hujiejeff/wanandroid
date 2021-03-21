@@ -1,0 +1,26 @@
+apply from: "../../module.build.gradle"
+
+dependencies {
+    //kotlin base
+    api rootProject.ext.kotlin['kotlin-stdlib']
+    api rootProject.ext.kotlin['core-ktx']
+
+    //androidX
+    api rootProject.ext.androidX['constraintlayout']
+    api rootProject.ext.androidX['appcompat']
+    api rootProject.ext.androidX['annotation']
+    api rootProject.ext.androidX['annotation']
+    api rootProject.ext.androidX['lifecycle-livedata-ktx']
+    api rootProject.ext.androidX['lifecycle-viewmodel-ktx']
+
+
+    //Material UI
+    api rootProject.ext.material['material']
+
+    //三方库
+    api rootProject.ext.dependencies['arouter-api']
+
+    testApi 'junit:junit:4.+'
+    androidTestApi 'androidx.test.ext:junit:1.1.2'
+    androidTestApi 'androidx.test.espresso:espresso-core:3.3.0'
+}

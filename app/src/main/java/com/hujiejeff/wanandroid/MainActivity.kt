@@ -1,11 +1,25 @@
 package com.hujiejeff.wanandroid
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import android.view.LayoutInflater
+import com.hujiejeff.wanadnroid.module.base.base.BaseActivity
+import com.hujiejeff.wanadnroid.module.base.constans.RouteMap
+import com.hujiejeff.wanadnroid.module.base.utils.startBySlide
+import com.hujiejeff.wanandroid.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+
+    override fun inflateBinding(layoutInflater: LayoutInflater): ActivityMainBinding =
+        ActivityMainBinding.inflate(layoutInflater)
+
+
+    override fun ActivityMainBinding.initView() {
+        btnJumpLogin.setOnClickListener {
+            startBySlide(RouteMap.Login.LOGIN_ACTIVITY)
+        }
     }
+
+    override fun initData() {
+        mBinding.btnJumpLogin.text = "跳转的公路"
+    }
+
 }
