@@ -12,6 +12,8 @@ dependencies {
     api rootProject.ext.androidX['annotation']
     api rootProject.ext.androidX['lifecycle-livedata-ktx']
     api rootProject.ext.androidX['lifecycle-viewmodel-ktx']
+    api rootProject.ext.androidX['fragment-ktx']
+
 
 
     //Material UI

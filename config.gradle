@@ -10,23 +10,24 @@ ext {
     ]
 
     kotlin = [
-            'kotlin-stdlib'   : 'org.jetbrains.kotlin:kotlin-stdlib',
-            'core-ktx'        : 'androidx.core:core-ktx:1.3.2',
+            'kotlin-stdlib': 'org.jetbrains.kotlin:kotlin-stdlib',
+            'core-ktx'     : 'androidx.core:core-ktx:1.3.2',
     ]
 
     //androidX配置
     androidX = [
-            'constraintlayout': 'androidx.constraintlayout:constraintlayout:2.0.4',
-            'appcompat'       : 'androidx.appcompat:appcompat:1.2.0',
-            'annotation': 'androidx.annotation:annotation:1.1.0',
-            'lifecycle-livedata-ktx': 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0',
-            'lifecycle-viewmodel-ktx': 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+            'constraintlayout'       : 'androidx.constraintlayout:constraintlayout:2.0.4',
+            'appcompat'              : 'androidx.appcompat:appcompat:1.2.0',
+            'annotation'             : 'androidx.annotation:annotation:1.1.0',
+            'lifecycle-livedata-ktx' : 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0',
+            'lifecycle-viewmodel-ktx': 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0',
+            'fragment-ktx'           : 'androidx.fragment:fragment-ktx:1.3.0'
     ]
 
     test = [
-            'android-junit'   : 'androidx.test.ext:junit:1.1.2',
-            'junit'           : 'junit:junit:4.+',
-            'espresso-core'   : 'androidx.test.espresso:espresso-core:3.3.0'
+            'android-junit': 'androidx.test.ext:junit:1.1.2',
+            'junit'        : 'junit:junit:4.+',
+            'espresso-core': 'androidx.test.espresso:espresso-core:3.3.0'
     ]
 
     material = [
@@ -40,7 +41,7 @@ ext {
 
     //三方依赖
     dependencies = [
-            'arouter-api': 'com.alibaba:arouter-api:1.4.1',
+            'arouter-api'     : 'com.alibaba:arouter-api:1.4.1',
             'arouter-compiler': 'com.alibaba:arouter-compiler:1.2.2'
     ]
 }
