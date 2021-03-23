@@ -1,16 +1,11 @@
 package com.hujiejeff.wanandroid
 
-import android.view.LayoutInflater
 import com.hujiejeff.wanadnroid.module.base.base.BaseActivity
 import com.hujiejeff.wanadnroid.module.base.constans.RouteMap
 import com.hujiejeff.wanadnroid.module.base.utils.startBySlide
 import com.hujiejeff.wanandroid.databinding.ActivityMainBinding
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-
-    override fun inflateBinding(layoutInflater: LayoutInflater): ActivityMainBinding =
-        ActivityMainBinding.inflate(layoutInflater)
-
 
     override fun ActivityMainBinding.initView() {
         btnJumpLogin.setOnClickListener {

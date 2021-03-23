@@ -1,14 +1,13 @@
 package com.hujiejeff.wanadnroid.module.base.base
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.hujiejeff.wanadnroid.module.base.R
+import com.hujiejeff.wanadnroid.module.base.utils.setActivityContentView
 
 abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
     protected lateinit var mBinding: V
-    abstract fun inflateBinding(layoutInflater: LayoutInflater): V
     open fun V.initView() {}
     open fun V.initUIEvent() {}
     open fun initParam(){}
@@ -17,8 +16,7 @@ abstract class BaseActivity<V : ViewBinding> : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //初始化intent参数
         initParam()
-        mBinding = inflateBinding(layoutInflater)
-        setContentView(mBinding.root)
+        mBinding = setActivityContentView<V>(this, layoutInflater)!!
         mBinding.run {
             initView()
             initUIEvent()

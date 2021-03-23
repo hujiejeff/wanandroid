@@ -11,5 +11,5 @@ android {
 }
 
 dependencies {
-    api project(":module:base")
+    api project(":module:common")
 }

@@ -1,0 +1,4 @@
+package network
+
+interface WanAndroidApi {
+}

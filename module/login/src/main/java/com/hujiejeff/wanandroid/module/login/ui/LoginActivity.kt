@@ -1,6 +1,5 @@
 package com.hujiejeff.wanandroid.module.login.ui
 
-import android.view.LayoutInflater
 import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hujiejeff.wanadnroid.module.base.base.BaseActivity
@@ -12,8 +11,6 @@ import com.hujiejeff.wanandroid.module.login.ui.login.LoginViewModel
 class LoginActivity : BaseActivity<LoginActivityLoginBinding>() {
 
     private val viewModel: LoginViewModel by viewModels()
-    override fun inflateBinding(layoutInflater: LayoutInflater): LoginActivityLoginBinding =
-        LoginActivityLoginBinding.inflate(layoutInflater)
 
     override fun LoginActivityLoginBinding.initView() {
 

@@ -14,6 +14,14 @@ dependencies {
     api rootProject.ext.androidX['lifecycle-viewmodel-ktx']
     api rootProject.ext.androidX['fragment-ktx']
 
+    //room
+    api rootProject.ext.androidX['room-runtime']
+    api rootProject.ext.androidX['room-ktx']
+    kapt rootProject.ext.androidX['room-compiler']
+
+    //navigation
+    api rootProject.ext.androidX['navigation-fragment-ktx']
+    api rootProject.ext.androidX['navigation-ui-ktx']
 
 
     //Material UI
@@ -21,8 +29,14 @@ dependencies {
 
     //三方库
     api rootProject.ext.dependencies['arouter-api']
+    api rootProject.ext.dependencies['retrofit2']
+    api rootProject.ext.dependencies['converter-gson']
+    api rootProject.ext.dependencies['logging-interceptor']
+    api rootProject.ext.dependencies['gson']
+    api rootProject.ext.dependencies['glide']
+    kapt rootProject.ext.dependencies['glide-compiler']
 
-    testApi 'junit:junit:4.+'
-    androidTestApi 'androidx.test.ext:junit:1.1.2'
-    androidTestApi 'androidx.test.espresso:espresso-core:3.3.0'
+    testApi rootProject.ext.test['junit']
+    androidTestApi rootProject.ext.test['android-junit']
+    androidTestApi  rootProject.ext.test['espresso-core']
 }
