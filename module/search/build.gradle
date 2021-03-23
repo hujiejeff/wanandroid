@@ -13,4 +13,7 @@ android {
 
 dependencies {
     api project(":module:common")
+    testApi rootProject.ext.test['junit']
+    androidTestApi rootProject.ext.test['android-junit']
+    androidTestApi  rootProject.ext.test['espresso-core']
 }
