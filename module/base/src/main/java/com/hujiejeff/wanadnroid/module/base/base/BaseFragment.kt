@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.hujiejeff.wanadnroid.module.base.utils.setFragmentContentView
 
-class BaseFragment<V: ViewBinding>: Fragment() {
+open class BaseFragment<V: ViewBinding>: Fragment() {
     protected lateinit var mBinding: V
     open  fun V.initView(){}
     override fun onCreateView(

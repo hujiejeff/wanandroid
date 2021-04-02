@@ -1,6 +1,7 @@
 package com.hujiejeff.wanadnroid.module.base.utils
 
 import android.content.Context
+import android.os.Bundle
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hujiejeff.wanadnroid.module.base.R
@@ -34,4 +35,11 @@ private fun Context.startWithTransition(
         .apply {
             action?.invoke(this)
         }.navigation(this)
+}
+
+object RouteCenter {
+    fun navigation(path: String, bundle: Bundle? = null): Any? {
+        val build = ARouter.getInstance().build(path)
+        return if (bundle == null) build.navigation() else build.with(bundle).navigation()
+    }
 }

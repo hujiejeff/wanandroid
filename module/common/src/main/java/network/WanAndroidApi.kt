@@ -82,8 +82,6 @@ interface WanAndroidApi {
     //问答
 
 
-
-
     //个人
 
     /**
@@ -139,6 +137,60 @@ interface WanAndroidApi {
      * 取消收藏
      */
     @POST("/lg/uncollect_originId/{id}/json")
-    suspend fun unCollectArticle()
+    suspend fun unCollectArticle(@Path("id") id: Int)
 
+    /**
+     * 我的收藏中取消收藏
+     */
+    @POST("/lg/uncollect/{id}/json")
+    @FormUrlEncoded
+    suspend fun unCollectArticleInMyCollect(@Path("id") id: Int, @Field("originId") originId: Int)
+
+
+    /**
+     * 收藏网址l列表
+     */
+    @GET("/lg/collect/usertools/json")
+    suspend fun myCollectSites()
+
+    /**
+     * 收藏网址
+     */
+    @POST("/lg/collect/addtool/json")
+    @FormUrlEncoded
+    suspend fun collectSite(
+        @Field("name") name: String,
+        @Field("link") link: String
+    )
+
+    /**
+     * 编辑收藏网址
+     */
+    @POST("/lg/collect/updatetool/json")
+    @FormUrlEncoded
+    suspend fun collectSite(
+        @Field("id") id: Int,
+        @Field("name") name: String,
+        @Field("link") link: String
+    )
+
+    /**
+     * 删除收藏网址
+     */
+    @POST("lg/collect/deletetool/json")
+    @FormUrlEncoded
+    suspend fun deleteCollectSite(@Field("id") id: Int)
+
+    /**
+     * 搜索
+     */
+
+    @POST("/article/query/{page}/json")
+    @FormUrlEncoded
+    suspend fun search(@Path("page") page: Int, @Field("k") key: String):BaseBean<PageBean<ArticleBean>>
+
+    //积分
+
+
+    //广场
 }
