@@ -1,8 +1,12 @@
 package com.hujiejeff.wanandroid_compose.ui.common
 
+import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.RangeSlider
 import androidx.compose.material.Text
@@ -14,14 +18,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
+import com.hujiejeff.wanandroid_compose.utils.showToast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.sql.Time
 import java.util.*
 
 
+//demo
 @Composable
 fun BannerImg() {
     val imgUrls =
@@ -34,34 +40,64 @@ fun BannerImg() {
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp), imgUrls.size
-    ) {
-        NewWorkImage(
-            modifier = Modifier.fillMaxSize(),
-            imgUrls[it]
-        )
+    ) { i ->
+        Card(
+            modifier = Modifier
+                .padding(all = 10.dp)
+                .fillMaxSize(),
+            elevation = 5.dp
+        ) {
+            NewWorkImage(
+                modifier = Modifier
+                    .clickable {
+                        showToast("点击了$i")
+                    },
+                imgUrls[i]
+            )
+        }
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Banner(modifier: Modifier = Modifier, count: Int, content: @Composable (Int) -> Unit) {
-    var currentIndex by remember {
-        mutableStateOf(0)
+    val pagerState = rememberPagerState(0)
+    val scope = rememberCoroutineScope()
+    val timer = Timer()
+    val timerTask = object : TimerTask() {
+        override fun run() {
+            scope.launch(Dispatchers.Main) {
+                val nextPageIndex = (pagerState.currentPage + 1) % count
+                pagerState.animateScrollToPage(nextPageIndex)
+            }
+        }
     }
     Box {
-        HorizontalPager(count = count, modifier = modifier) { page ->
+        HorizontalPager(
+            count = count,
+            modifier = modifier,
+            state = pagerState
+        ) { page ->
             content(page)
-            currentIndex = currentPage
         }
-        Indicators(modifier = Modifier.align(Alignment.BottomCenter), count = count, currentIndex)
+
+        Indicators(
+            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 20.dp),
+            count = count,
+            pagerState.currentPage
+        )
     }
 }
 
 @Composable
 fun Indicators(modifier: Modifier = Modifier, count: Int = 1, currentIndex: Int) {
     Row(modifier = modifier) {
-        repeat(count) {i ->
-            CircleIndicator(modifier = Modifier.padding(start = 2.dp, end = 2.dp), i == currentIndex)
+        repeat(count) { i ->
+            CircleIndicator(
+                modifier = Modifier.padding(start = 2.dp, end = 2.dp),
+                i == currentIndex
+            )
         }
     }
 }
