@@ -6,14 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.hujiejeff.wanandroid_compose.ui.common.Banner
+import com.hujiejeff.wanandroid_compose.ui.common.BannerImg
 import com.hujiejeff.wanandroid_compose.ui.model.TabItem
 
 @Preview(showBackground = true)
 @Composable
 fun MainScreen() {
     Column(modifier = Modifier.fillMaxSize()) {
-        Banner()
+        BannerImg()
     }
     Box(modifier = Modifier
         .fillMaxSize()) {

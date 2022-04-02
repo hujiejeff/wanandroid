@@ -17,27 +17,35 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 
-@OptIn(ExperimentalPagerApi::class)
+
 @Composable
-fun Banner() {
+fun BannerImg() {
     val imgUrls =
         listOf(
             "https://www.wanandroid.com/blogimgs/42da12d8-de56-4439-b40c-eab66c227a4b.png",
             "https://www.wanandroid.com/blogimgs/62c1bd68-b5f3-4a3c-a649-7ca8c7dfabe6.png",
             "https://www.wanandroid.com/blogimgs/50c115c2-cf6c-4802-aa7b-a4334de444cd.png",
         )
+    Banner(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp), imgUrls.size
+    ) {
+        NewWorkImage(
+            modifier = Modifier.fillMaxSize(),
+            imgUrls[it]
+        )
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun Banner(modifier: Modifier = Modifier, count: Int, content: @Composable (Int) -> Unit) {
     Box {
-        HorizontalPager(
-            count = imgUrls.size, modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-        ) { page ->
-            NewWorkImage(
-                modifier = Modifier.fillMaxSize(),
-                imgUrls[page]
-            )
+        HorizontalPager(count = count, modifier = modifier) { page ->
+            content(page)
         }
-        Indicators(modifier = Modifier.align(Alignment.BottomCenter), count = imgUrls.size)
+        Indicators(modifier = Modifier.align(Alignment.BottomCenter), count = count)
     }
 }
 
@@ -50,7 +58,6 @@ fun Indicators(modifier: Modifier = Modifier, count: Int = 1) {
     }
 }
 
-@Preview
 @Composable
 fun CircleIndicator(modifier: Modifier = Modifier) {
     Canvas(modifier = modifier.size(5.dp)) {
