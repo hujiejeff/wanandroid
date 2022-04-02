@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.hujiejeff.base.data.local.dao.ReadHistoryDao
 import com.hujiejeff.base.data.local.entity.ReadHistory
 
-@Database(entities = arrayOf(ReadHistory::class), version = 1)
+@Database(entities = [ReadHistory::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun readHistoryDao(): ReadHistoryDao
 
