@@ -61,4 +61,7 @@ dependencies {
 
     implementation "com.google.accompanist:accompanist-pager:0.24.5-alpha"//pager
     implementation "com.google.accompanist:accompanist-coil:$accompanist_version"//coil
+
+
+    implementation project(":base")
 }
