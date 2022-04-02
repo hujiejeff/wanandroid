@@ -2,18 +2,17 @@ package com.hujiejeff.wanandroid_compose.ui.home
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
 import com.hujiejeff.wanandroid_compose.ui.home.page.MainScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.TreeScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.UserScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.WechatScreen
+import com.hujiejeff.wanandroid_compose.ui.home.views.HomeBottomBar
+import com.hujiejeff.wanandroid_compose.ui.home.views.HomeTopBar
 
 import com.hujiejeff.wanandroid_compose.ui.model.TabItem
 

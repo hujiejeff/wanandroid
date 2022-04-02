@@ -1,4 +1,4 @@
-package com.hujiejeff.wanandroid_compose.ui.home
+package com.hujiejeff.wanandroid_compose.ui.home.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
