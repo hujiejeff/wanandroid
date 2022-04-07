@@ -59,6 +59,9 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta01"
+
     implementation "com.google.accompanist:accompanist-pager:0.24.5-alpha"//pager
     implementation "com.google.accompanist:accompanist-coil:$accompanist_version"//coil
 
