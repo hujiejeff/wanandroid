@@ -33,8 +33,8 @@ private fun RowScope.BottomNavigationItem(
     selected: TabItem,
     onClickTab: (TabItem) -> Unit = {}
 ) {
-    val selectorColor = Color.Black
-    val unSelectorColor = selectorColor.copy(alpha = 0.5f)
+    val selectorColor = MaterialTheme.colors.primary
+    val unSelectorColor = Color.Black
     val color = if (item == selected) selectorColor else unSelectorColor
     Column(
         modifier = Modifier

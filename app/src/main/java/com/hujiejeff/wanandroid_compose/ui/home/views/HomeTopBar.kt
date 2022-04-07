@@ -27,12 +27,12 @@ fun HomeTopBar(tabItem: TabItem) {
             }
         },
         title = {
-            TextField(
+/*            TextField(
                 modifier = Modifier.background(MaterialTheme.colors.primary),
                 value = search,
                 onValueChange = { search = it },
                 singleLine = true
-            )
+            )*/
         },
         actions = {
             Icon(

@@ -1,12 +1,15 @@
 package com.hujiejeff.wanandroid_compose.ui.home
 
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
 import com.hujiejeff.wanandroid_compose.ui.home.page.MainScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.TreeScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.UserScreen
@@ -21,6 +24,7 @@ fun HomeScreen() {
     var selected by remember {
         mutableStateOf(TabItem.Main)
     }
+    val scrollState = rememberScrollState()
     Scaffold(
         topBar = {
             HomeTopBar(selected)
@@ -33,15 +37,15 @@ fun HomeScreen() {
         drawerContent = {},
         floatingActionButton = {
             if (selected == TabItem.Main) {
-                FloatingActionButton(onClick = {  }) {
-                    Icon(imageVector = Icons.Filled.KeyboardArrowUp, contentDescription = null)
+                FloatingActionButton(backgroundColor = MaterialTheme.colors.primary, onClick = {  }) {
+                    Icon(imageVector = Icons.Filled.KeyboardArrowUp, contentDescription = null, tint = Color.White)
                 }
             }
         }
     ) {
         when (selected) {
             TabItem.Main -> {
-                MainScreen()
+                MainScreen(scrollState)
             }
             TabItem.Tree -> {
                 TreeScreen()
