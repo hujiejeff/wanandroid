@@ -30,13 +30,13 @@ import java.util.*
 
 //demo
 @Composable
-fun BannerImg() {
-    val imgUrls =
+fun BannerImg(imgUrls: List<String>, onclick: (Int) -> Unit = {}) {
+/*    val imgUrls =
         listOf(
             "https://www.wanandroid.com/blogimgs/42da12d8-de56-4439-b40c-eab66c227a4b.png",
             "https://www.wanandroid.com/blogimgs/62c1bd68-b5f3-4a3c-a649-7ca8c7dfabe6.png",
             "https://www.wanandroid.com/blogimgs/50c115c2-cf6c-4802-aa7b-a4334de444cd.png",
-        )
+        )*/
     Banner(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,7 +51,7 @@ fun BannerImg() {
             NewWorkImage(
                 modifier = Modifier
                     .clickable {
-                        showToast("点击了$i")
+                        onclick(i)
                     },
                 imgUrls[i]
             )

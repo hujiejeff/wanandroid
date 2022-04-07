@@ -2,45 +2,45 @@ package com.hujiejeff.wanandroid_compose.ui.home.page
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.hujiejeff.base.utils.TimeUtil
 import com.hujiejeff.base.utils.TimeUtil.YYYY_MM_DD_HH_MM
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
+import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
 import com.hujiejeff.wanandroid_compose.ui.common.BannerImg
 import com.hujiejeff.wanandroid_compose.ui.home.HomeViewModel
-import com.hujiejeff.wanandroid_compose.ui.model.TabItem
+import com.hujiejeff.wanandroid_compose.utils.showToast
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(state: ScrollState) {
+fun MainScreen(state: LazyListState) {
     val homeViewModel = viewModel<HomeViewModel>()
     val mainScreenState by homeViewModel.mainScreenState.collectAsState()
     LaunchedEffect(Unit) {
         launch {
-            homeViewModel.loadMoreArticles()
+            homeViewModel.loadBanners()
+        }
+        launch {
+            homeViewModel.firstLoadArticles(false)
         }
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        BannerImg()
+        TopBanner(bannerBeans = mainScreenState.banners)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -50,15 +50,26 @@ fun MainScreen(state: ScrollState) {
     }
 }
 
+@Composable
+fun TopBanner(bannerBeans: List<BannerBean>) {
+    val imgUrls = bannerBeans.map { bannerBean ->
+        bannerBean.imagePath
+    }
+    BannerImg(imgUrls = imgUrls) {i ->
+        showToast("点击了${bannerBeans[i].url}")
+    }
+}
+
 
 @Composable
-fun ArticleListView(articles: List<ArticleBean>, state: ScrollState) {
-    Column(
-        modifier = Modifier
-            .verticalScroll(state = state)
-            .absolutePadding(bottom = 60.dp)
+fun ArticleListView(articles: List<ArticleBean>, state: LazyListState) {
+    LazyColumn(
+        modifier = Modifier.absolutePadding(bottom = 60.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        state = state,
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        articles.forEach { article ->
+        items(items = articles, key = { article -> article.id }) { article: ArticleBean ->
             ArticleItem(article)
         }
     }
@@ -70,7 +81,6 @@ fun ArticleItem(article: ArticleBean) {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(10.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -81,9 +91,17 @@ fun ArticleItem(article: ArticleBean) {
                     Tag(modifier = Modifier.padding(end = 10.dp), tag = tag.name)
                 }
                 if (article.author == "") {
-                    Text(text = article.shareUser,color = Color.Gray,  fontSize = 14.sp)
+                    Text(
+                        text = article.shareUser,
+                        color = Color.Gray,
+                        style = MaterialTheme.typography.subtitle2
+                    )
                 } else {
-                    Text(text = article.author, color = Color.Gray,  fontSize = 14.sp)
+                    Text(
+                        text = article.author,
+                        color = Color.Gray,
+                        style = MaterialTheme.typography.subtitle2
+                    )
                 }
 
             }
@@ -91,7 +109,7 @@ fun ArticleItem(article: ArticleBean) {
                 modifier = Modifier.align(Alignment.CenterEnd),
                 text = TimeUtil.formatTime(article.publishTime, YYYY_MM_DD_HH_MM),
                 color = Color.Gray,
-                fontSize = 14.sp
+                style = MaterialTheme.typography.subtitle2
             )
         }
 
@@ -108,7 +126,7 @@ fun ArticleItem(article: ArticleBean) {
                 modifier = Modifier.align(Alignment.CenterStart),
                 text = "${article.superChapterName}/${article.chapterName}",
                 color = Color.Gray,
-                fontSize = 14.sp
+                style = MaterialTheme.typography.subtitle2
             )
             Icon(
                 modifier = Modifier.align(Alignment.CenterEnd),

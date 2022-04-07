@@ -1,6 +1,6 @@
 package com.hujiejeff.wanandroid_compose.ui.home
 
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -18,13 +18,15 @@ import com.hujiejeff.wanandroid_compose.ui.home.views.HomeBottomBar
 import com.hujiejeff.wanandroid_compose.ui.home.views.HomeTopBar
 
 import com.hujiejeff.wanandroid_compose.ui.model.TabItem
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen() {
     var selected by remember {
         mutableStateOf(TabItem.Main)
     }
-    val scrollState = rememberScrollState()
+    val lazyListState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             HomeTopBar(selected)
@@ -37,7 +39,11 @@ fun HomeScreen() {
         drawerContent = {},
         floatingActionButton = {
             if (selected == TabItem.Main) {
-                FloatingActionButton(backgroundColor = MaterialTheme.colors.primary, onClick = {  }) {
+                FloatingActionButton(backgroundColor = MaterialTheme.colors.primary, onClick = {
+                    coroutineScope.launch {
+                        lazyListState.animateScrollToItem(0)
+                    }
+                }) {
                     Icon(imageVector = Icons.Filled.KeyboardArrowUp, contentDescription = null, tint = Color.White)
                 }
             }
@@ -45,7 +51,7 @@ fun HomeScreen() {
     ) {
         when (selected) {
             TabItem.Main -> {
-                MainScreen(scrollState)
+                MainScreen(lazyListState)
             }
             TabItem.Tree -> {
                 TreeScreen()
