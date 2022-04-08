@@ -1,5 +1,6 @@
 package com.hujiejeff.wanandroid_compose.ui.home.page
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.hujiejeff.base.utils.TimeUtil
 import com.hujiejeff.base.utils.TimeUtil.YYYY_MM_DD_HH_MM
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
@@ -29,20 +32,39 @@ import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import com.hujiejeff.wanandroid_compose.utils.showToast
 import kotlinx.coroutines.launch
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MainScreen(lazyListState: LazyListState, pagerState: PagerState) {
+fun MainScreen(
+    lazyListState: LazyListState,
+    pagerState: PagerState,
+    scaffoldState: ScaffoldState
+) {
     val homeViewModel = viewModel<HomeViewModel>()
     val mainScreenState by homeViewModel.mainScreenState.collectAsState()
-    if (mainScreenState.loadingState == LoadingState.IDLE) {
+    val cornerShape = rememberCoroutineScope()
+    if (mainScreenState.loadingState == LoadingState.UnInit) {
         LaunchedEffect(Unit) {
             launch {
                 homeViewModel.loadBanners()
             }
             launch {
-                homeViewModel.firstLoadArticles(false)
+                homeViewModel.firstLoadArticles()
             }
         }
+    }
+
+    when (mainScreenState.loadingState) {
+        LoadingState.LoadSuccess -> {
+            showToast("加载成功")
+        }
+        LoadingState.Error -> {
+            showToast("加载失败")
+        }
+        LoadingState.RefreshSuccess -> {
+            showToast("刷新成功")
+        }
+        else -> {}
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -51,7 +73,15 @@ fun MainScreen(lazyListState: LazyListState, pagerState: PagerState) {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            ArticleListView(articles = mainScreenState.articles, lazyListState)
+            SwipeRefresh(
+                modifier = Modifier.fillMaxSize(),
+                state = rememberSwipeRefreshState(mainScreenState.loadingState == LoadingState.RefreshLoading),
+                onRefresh = {
+                    homeViewModel.refreshLoadArticles()
+                },
+            ) {
+                ArticleListView(articles = mainScreenState.articles, lazyListState)
+            }
         }
     }
 }
@@ -62,7 +92,7 @@ fun TopBanner(bannerBeans: List<BannerBean>, pagerState: PagerState) {
     val imgUrls = bannerBeans.map { bannerBean ->
         bannerBean.imagePath
     }
-    BannerImg(imgUrls = imgUrls, pagerState = pagerState) {i ->
+    BannerImg(imgUrls = imgUrls, pagerState = pagerState) { i ->
         showToast("点击了${bannerBeans[i].url}")
     }
 }
@@ -147,7 +177,7 @@ fun ArticleItem(article: ArticleBean) {
 }
 
 @Composable
-fun Tag(modifier: Modifier = Modifier, tag: String, color: Color = Color.Red) {
+fun Tag(modifier: Modifier = Modifier, tag: String, color: Color = MaterialTheme.colors.primary) {
     Text(
         modifier = modifier
             .border(width = 1.dp, color = color, RoundedCornerShape(5.dp))

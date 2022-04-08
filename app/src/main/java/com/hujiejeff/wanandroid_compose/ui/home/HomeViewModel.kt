@@ -8,6 +8,7 @@ import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
 import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import com.hujiejeff.wanandroid_compose.ui.model.MainScreenState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -17,7 +18,7 @@ class HomeViewModel : ViewModel() {
     private var page = 1
 
     val mainScreenState =
-        MutableStateFlow(MainScreenState(emptyList(), emptyList(), LoadingState.IDLE))
+        MutableStateFlow(MainScreenState(emptyList(), emptyList(), LoadingState.UnInit))
 
     /**
      * 加载Banner
@@ -27,7 +28,6 @@ class HomeViewModel : ViewModel() {
             val bannerBeanRep = DataModel.getBanners()
             if (bannerBeanRep.errorCode != -1) {
                 _banners.addAll(bannerBeanRep.data!!)
-                refreshViewState(LoadingState.Success)
             }
         }
     }
@@ -35,9 +35,15 @@ class HomeViewModel : ViewModel() {
     /**
      * 刷新
      */
-    fun firstLoadArticles(refresh: Boolean) {
+    fun firstLoadArticles() {
         page = 1
-        refreshViewState(if (refresh) LoadingState.RefreshLoading else LoadingState.Loading)
+        refreshViewState(LoadingState.Loading)
+        loadArticles(page)
+    }
+
+    fun refreshLoadArticles() {
+        page = 1
+        refreshViewState(LoadingState.RefreshLoading)
         loadArticles(page)
     }
 
@@ -60,10 +66,16 @@ class HomeViewModel : ViewModel() {
                     _articles.clear()
                 }
                 _articles.addAll(articleBeanRep.data!!.datas)
-                refreshViewState(LoadingState.Success)
+                when(mainScreenState.value.loadingState) {
+                    LoadingState.Loading,LoadingState.LoadingMore -> refreshViewState(LoadingState.LoadSuccess)
+                    LoadingState.RefreshLoading -> refreshViewState(LoadingState.RefreshSuccess)
+                    else -> {}
+                }
             } else {
                 refreshViewState(LoadingState.Error)
             }
+            delay(100)
+            refreshViewState(LoadingState.IDLE)
         }
     }
 

@@ -1,15 +1,16 @@
 package com.hujiejeff.wanandroid_compose.ui.home
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.*
 
-import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.hujiejeff.wanandroid_compose.ui.home.page.MainScreen
@@ -22,6 +23,7 @@ import com.hujiejeff.wanandroid_compose.ui.home.views.HomeTopBar
 import com.hujiejeff.wanandroid_compose.ui.model.TabItem
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen() {
@@ -31,7 +33,10 @@ fun HomeScreen() {
     val lazyListState = rememberLazyListState()
     val pagerState = rememberPagerState(0)
     val coroutineScope = rememberCoroutineScope()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scaffoldState = rememberScaffoldState(drawerState = drawerState)
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             HomeTopBar(selected)
         },
@@ -48,14 +53,32 @@ fun HomeScreen() {
                         lazyListState.animateScrollToItem(0)
                     }
                 }) {
-                    Icon(imageVector = Icons.Filled.KeyboardArrowUp, contentDescription = null, tint = Color.White)
+                    Icon(
+                        imageVector = Icons.Filled.KeyboardArrowUp,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
                 }
+            }
+        },
+        snackbarHost = {
+            SnackbarHost(it) { data ->
+                Snackbar(
+                    modifier = Modifier.imePadding(),
+                    backgroundColor = MaterialTheme.colors.primary,
+                    elevation = 0.dp,
+                    snackbarData = data,
+                )
             }
         }
     ) {
         when (selected) {
             TabItem.Main -> {
-                MainScreen(lazyListState = lazyListState, pagerState = pagerState)
+                MainScreen(
+                    lazyListState = lazyListState,
+                    pagerState = pagerState,
+                    scaffoldState = scaffoldState,
+                )
             }
             TabItem.Tree -> {
                 TreeScreen()

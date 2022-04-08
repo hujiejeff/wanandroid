@@ -65,6 +65,8 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:0.24.5-alpha"//pager
     implementation "com.google.accompanist:accompanist-coil:$accompanist_version"//coil
 
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.24.6-alpha"
+
 
     implementation project(":base")
 }
