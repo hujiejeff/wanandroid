@@ -14,6 +14,7 @@ enum class TabItem(val icon: ImageVector, val title: String) {
 }
 
 enum class LoadingState {
+    IDLE,
     Loading,
     Error,
     Success,
@@ -25,5 +26,5 @@ enum class LoadingState {
 class MainScreenState(
     val banners: List<BannerBean>,
     val articles: List<ArticleBean>,
-    val loadingState: LoadingState
+    val loadingState: LoadingState = LoadingState.IDLE
 )

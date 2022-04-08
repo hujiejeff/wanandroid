@@ -23,6 +23,7 @@ import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
 import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
 import com.hujiejeff.wanandroid_compose.ui.common.BannerImg
 import com.hujiejeff.wanandroid_compose.ui.home.HomeViewModel
+import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import com.hujiejeff.wanandroid_compose.utils.showToast
 import kotlinx.coroutines.launch
 
@@ -30,12 +31,14 @@ import kotlinx.coroutines.launch
 fun MainScreen(state: LazyListState) {
     val homeViewModel = viewModel<HomeViewModel>()
     val mainScreenState by homeViewModel.mainScreenState.collectAsState()
-    LaunchedEffect(Unit) {
-        launch {
-            homeViewModel.loadBanners()
-        }
-        launch {
-            homeViewModel.firstLoadArticles(false)
+    if (mainScreenState.loadingState == LoadingState.IDLE) {
+        LaunchedEffect(Unit) {
+            launch {
+                homeViewModel.loadBanners()
+            }
+            launch {
+                homeViewModel.firstLoadArticles(false)
+            }
         }
     }
 

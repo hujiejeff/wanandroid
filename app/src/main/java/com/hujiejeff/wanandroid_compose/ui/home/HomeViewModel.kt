@@ -17,7 +17,7 @@ class HomeViewModel : ViewModel() {
     private var page = 1
 
     val mainScreenState =
-        MutableStateFlow(MainScreenState(emptyList(), emptyList(), LoadingState.Loading))
+        MutableStateFlow(MainScreenState(emptyList(), emptyList(), LoadingState.IDLE))
 
     /**
      * 加载Banner
