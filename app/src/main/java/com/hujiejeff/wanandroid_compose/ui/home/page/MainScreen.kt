@@ -17,6 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import com.hujiejeff.base.utils.TimeUtil
 import com.hujiejeff.base.utils.TimeUtil.YYYY_MM_DD_HH_MM
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
@@ -27,8 +29,9 @@ import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import com.hujiejeff.wanandroid_compose.utils.showToast
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MainScreen(state: LazyListState) {
+fun MainScreen(lazyListState: LazyListState, pagerState: PagerState) {
     val homeViewModel = viewModel<HomeViewModel>()
     val mainScreenState by homeViewModel.mainScreenState.collectAsState()
     if (mainScreenState.loadingState == LoadingState.IDLE) {
@@ -43,22 +46,23 @@ fun MainScreen(state: LazyListState) {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBanner(bannerBeans = mainScreenState.banners)
+        TopBanner(bannerBeans = mainScreenState.banners, pagerState = pagerState)
         Box(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            ArticleListView(articles = mainScreenState.articles, state)
+            ArticleListView(articles = mainScreenState.articles, lazyListState)
         }
     }
 }
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TopBanner(bannerBeans: List<BannerBean>) {
+fun TopBanner(bannerBeans: List<BannerBean>, pagerState: PagerState) {
     val imgUrls = bannerBeans.map { bannerBean ->
         bannerBean.imagePath
     }
-    BannerImg(imgUrls = imgUrls) {i ->
+    BannerImg(imgUrls = imgUrls, pagerState = pagerState) {i ->
         showToast("点击了${bannerBeans[i].url}")
     }
 }

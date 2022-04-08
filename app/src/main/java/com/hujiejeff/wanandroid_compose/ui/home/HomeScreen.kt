@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.rememberPagerState
 import com.hujiejeff.wanandroid_compose.ui.home.page.MainScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.TreeScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.UserScreen
@@ -20,12 +22,14 @@ import com.hujiejeff.wanandroid_compose.ui.home.views.HomeTopBar
 import com.hujiejeff.wanandroid_compose.ui.model.TabItem
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun HomeScreen() {
     var selected by remember {
         mutableStateOf(TabItem.Main)
     }
     val lazyListState = rememberLazyListState()
+    val pagerState = rememberPagerState(0)
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
@@ -51,7 +55,7 @@ fun HomeScreen() {
     ) {
         when (selected) {
             TabItem.Main -> {
-                MainScreen(lazyListState)
+                MainScreen(lazyListState = lazyListState, pagerState = pagerState)
             }
             TabItem.Tree -> {
                 TreeScreen()

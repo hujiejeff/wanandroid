@@ -29,8 +29,9 @@ import java.util.*
 
 
 //demo
+@OptIn(ExperimentalPagerApi::class)
 @Composable
-fun BannerImg(imgUrls: List<String>, onclick: (Int) -> Unit = {}) {
+fun BannerImg(pagerState: PagerState, imgUrls: List<String>, onclick: (Int) -> Unit = {}) {
 /*    val imgUrls =
         listOf(
             "https://www.wanandroid.com/blogimgs/42da12d8-de56-4439-b40c-eab66c227a4b.png",
@@ -40,7 +41,7 @@ fun BannerImg(imgUrls: List<String>, onclick: (Int) -> Unit = {}) {
     Banner(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp), imgUrls.size
+            .height(200.dp), pagerState = pagerState, count = imgUrls.size
     ) { i ->
         Card(
             modifier = Modifier
@@ -62,8 +63,12 @@ fun BannerImg(imgUrls: List<String>, onclick: (Int) -> Unit = {}) {
 @SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Banner(modifier: Modifier = Modifier, count: Int, content: @Composable (Int) -> Unit) {
-    val pagerState = rememberPagerState(0)
+fun Banner(
+    modifier: Modifier = Modifier,
+    pagerState: PagerState,
+    count: Int,
+    content: @Composable (Int) -> Unit
+) {
     val scope = rememberCoroutineScope()
     val timer = Timer()
     val timerTask = object : TimerTask() {
@@ -84,7 +89,9 @@ fun Banner(modifier: Modifier = Modifier, count: Int, content: @Composable (Int)
         }
 
         Indicators(
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 20.dp),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 20.dp),
             count = count,
             pagerState.currentPage
         )
