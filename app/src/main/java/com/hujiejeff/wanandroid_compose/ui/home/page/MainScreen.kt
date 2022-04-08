@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -29,10 +30,12 @@ import com.hujiejeff.base.utils.TimeUtil.YYYY_MM_DD_HH_MM
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
 import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
 import com.hujiejeff.wanandroid_compose.ui.common.BannerImg
+import com.hujiejeff.wanandroid_compose.ui.common.Indicators
 import com.hujiejeff.wanandroid_compose.ui.home.HomeViewModel
 import com.hujiejeff.wanandroid_compose.ui.model.HotTagItem
 import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import com.hujiejeff.wanandroid_compose.utils.showToast
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -91,7 +94,8 @@ fun MainScreen(
                 footer = {
 
                 },
-                articles = mainScreenState.articles, lazyListState = lazyListState
+                articles = mainScreenState.articles, lazyListState = lazyListState,
+                onLoadMore = { homeViewModel.loadMoreArticles() }
             )
         }
     }
@@ -154,20 +158,30 @@ fun ArticleListView(
     header: @Composable () -> Unit = {},
     footer: @Composable () -> Unit = {},
     articles: List<ArticleBean>,
-    lazyListState: LazyListState
+    lazyListState: LazyListState,
+    onLoadMore: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
             .absolutePadding(bottom = 60.dp)
             .background(color = Color.White),
         state = lazyListState,
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             header()
         }
         items(items = articles, key = { article -> article.id }) { article: ArticleBean ->
             ArticleItem(article)
+        }
+
+        item {
+            CircularProgressIndicator()
+            LaunchedEffect(Unit) {
+                delay(1000)
+                onLoadMore()
+            }
         }
         item {
             footer()
