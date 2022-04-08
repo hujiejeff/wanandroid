@@ -1,5 +1,6 @@
 package com.hujiejeff.wanandroid_compose.ui.model
 
+import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
@@ -8,6 +9,7 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.rounded.Place
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.hujiejeff.wanandroid_compose.R
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
 import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
 
@@ -16,6 +18,17 @@ enum class TabItem(val iconSelected: ImageVector, val iconNormal: ImageVector, v
     Tree(Icons.Filled.Build, Icons.Outlined.Build, "项目"),
     Wechat(Icons.Filled.Place, Icons.Outlined.Place, "分类"),
     User(Icons.Filled.Person, Icons.Outlined.Person, "我的"),
+}
+
+enum class HotTagItem(val title: String, @DrawableRes val resIconId: Int) {
+    Interview("面试", R.mipmap.icon_iv),
+    Share("大厂分享", R.mipmap.icon_big),
+    Optimization("性能优化", R.mipmap.icon_op),
+    Pub("官方发布", R.mipmap.icon_daily),
+    JetPack("Jetpack", R.mipmap.icon_jetpack),
+    SourceCode("开源库源码", R.mipmap.icon_open),
+    Framework("Framework", R.mipmap.icon_framework),
+    Kotlin("Kotlin", R.mipmap.icon_kotlin)
 }
 
 enum class LoadingState {

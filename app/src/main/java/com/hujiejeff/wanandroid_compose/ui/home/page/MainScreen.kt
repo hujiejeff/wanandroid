@@ -14,6 +14,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,6 +30,7 @@ import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
 import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
 import com.hujiejeff.wanandroid_compose.ui.common.BannerImg
 import com.hujiejeff.wanandroid_compose.ui.home.HomeViewModel
+import com.hujiejeff.wanandroid_compose.ui.model.HotTagItem
 import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import com.hujiejeff.wanandroid_compose.utils.showToast
 import kotlinx.coroutines.launch
@@ -67,18 +70,22 @@ fun MainScreen(
         else -> {}
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopBanner(bannerBeans = mainScreenState.banners, pagerState = pagerState)
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            SwipeRefresh(
-                modifier = Modifier.fillMaxSize(),
-                state = rememberSwipeRefreshState(mainScreenState.loadingState == LoadingState.RefreshLoading),
-                onRefresh = {
-                    homeViewModel.refreshLoadArticles()
-                },
+
+    SwipeRefresh(
+        modifier = Modifier.fillMaxSize(),
+        state = rememberSwipeRefreshState(mainScreenState.loadingState == LoadingState.RefreshLoading),
+        onRefresh = {
+            homeViewModel.refreshLoadArticles()
+        },
+    ) {
+        Column(modifier = Modifier
+            .fillMaxSize()) {
+            TopBanner(bannerBeans = mainScreenState.banners, pagerState = pagerState)
+            TopHotTags()
+            Spacer(Modifier.size(20.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
             ) {
                 ArticleListView(articles = mainScreenState.articles, lazyListState)
             }
@@ -94,6 +101,43 @@ fun TopBanner(bannerBeans: List<BannerBean>, pagerState: PagerState) {
     }
     BannerImg(imgUrls = imgUrls, pagerState = pagerState) { i ->
         showToast("点击了${bannerBeans[i].url}")
+    }
+}
+
+//热门专题
+@Composable
+fun TopHotTags() {
+    val list = listOf(
+        HotTagItem.Interview,
+        HotTagItem.Share,
+        HotTagItem.Optimization,
+        HotTagItem.Pub,
+        HotTagItem.JetPack,
+        HotTagItem.SourceCode,
+        HotTagItem.Framework,
+        HotTagItem.Kotlin,
+    )
+    Column() {
+        RowTags(list = list.subList(0, 4))
+        Spacer(Modifier.size(20.dp))
+        RowTags(list = list.subList(4, list.size))
+    }
+}
+
+@Composable
+fun RowTags(list: List<HotTagItem>) {
+    Row() {
+        list.forEach { hotTagItem ->
+            Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    modifier = Modifier.size(30.dp),
+                    painter = painterResource(id = hotTagItem.resIconId),
+                    contentDescription = null
+                )
+                Spacer(Modifier.size(5.dp))
+                Text(text = hotTagItem.title, style = MaterialTheme.typography.subtitle2)
+            }
+        }
     }
 }
 
