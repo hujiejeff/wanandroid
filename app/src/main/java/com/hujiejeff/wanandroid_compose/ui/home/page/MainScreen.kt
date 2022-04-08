@@ -78,17 +78,21 @@ fun MainScreen(
             homeViewModel.refreshLoadArticles()
         },
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()) {
-            TopBanner(bannerBeans = mainScreenState.banners, pagerState = pagerState)
-            TopHotTags()
-            Spacer(Modifier.size(20.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                ArticleListView(articles = mainScreenState.articles, lazyListState)
-            }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            ArticleListView(
+                header = {
+                    TopBanner(bannerBeans = mainScreenState.banners, pagerState = pagerState)
+                    TopHotTags()
+                    Spacer(Modifier.size(20.dp))
+                },
+                footer = {
+
+                },
+                articles = mainScreenState.articles, lazyListState = lazyListState
+            )
         }
     }
 }
@@ -126,9 +130,12 @@ fun TopHotTags() {
 
 @Composable
 fun RowTags(list: List<HotTagItem>) {
-    Row() {
+    Row {
         list.forEach { hotTagItem ->
-            Column(modifier = Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Image(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(id = hotTagItem.resIconId),
@@ -143,15 +150,27 @@ fun RowTags(list: List<HotTagItem>) {
 
 
 @Composable
-fun ArticleListView(articles: List<ArticleBean>, state: LazyListState) {
+fun ArticleListView(
+    header: @Composable () -> Unit = {},
+    footer: @Composable () -> Unit = {},
+    articles: List<ArticleBean>,
+    lazyListState: LazyListState
+) {
     LazyColumn(
-        modifier = Modifier.absolutePadding(bottom = 60.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        state = state,
+        modifier = Modifier
+            .absolutePadding(bottom = 60.dp)
+            .background(color = Color.White),
+        state = lazyListState,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
+        item {
+            header()
+        }
         items(items = articles, key = { article -> article.id }) { article: ArticleBean ->
             ArticleItem(article)
+        }
+        item {
+            footer()
         }
     }
 }
@@ -162,6 +181,7 @@ fun ArticleItem(article: ArticleBean) {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .padding(horizontal = 16.dp)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Row(
