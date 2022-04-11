@@ -52,5 +52,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //Utils
-    api 'com.blankj:utilcodex:1.30.6'
+    api ('com.blankj:utilcodex:1.30.6') {
+        exclude group:"com.google.code.gson",  module:"gson"
+    }
 }
