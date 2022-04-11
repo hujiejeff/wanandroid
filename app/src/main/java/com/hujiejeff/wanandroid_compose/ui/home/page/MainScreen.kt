@@ -2,13 +2,11 @@ package com.hujiejeff.wanandroid_compose.ui.home.page
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,14 +15,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.blankj.utilcode.util.ActivityUtils
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -32,16 +27,15 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.hujiejeff.base.utils.TimeUtil
 import com.hujiejeff.base.utils.TimeUtil.YYYY_MM_DD_HH_MM
 import com.hujiejeff.base.webview.WebViewActivity
-import com.hujiejeff.wanandroid_compose.WanAndroidApp
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
 import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
 import com.hujiejeff.wanandroid_compose.ui.common.BannerImg
-import com.hujiejeff.wanandroid_compose.ui.common.Indicators
 import com.hujiejeff.wanandroid_compose.ui.home.HomeViewModel
 import com.hujiejeff.wanandroid_compose.ui.model.HotTagItem
 import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
-import com.hujiejeff.wanandroid_compose.utils.ContextHolder
-import com.hujiejeff.wanandroid_compose.utils.showToast
+import com.hujiejeff.base.utils.ContextHolder
+import com.hujiejeff.base.utils.showToast
+import com.hujiejeff.base.utils.startH5
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -115,7 +109,7 @@ fun TopBanner(bannerBeans: List<BannerBean>, pagerState: PagerState) {
         bannerBean.imagePath
     }
     BannerImg(imgUrls = imgUrls, pagerState = pagerState) { i ->
-        showToast("点击了${bannerBeans[i].url}")
+        startH5(title = bannerBeans[i].title, url = bannerBeans[i].url)
     }
 }
 
@@ -203,12 +197,7 @@ fun ArticleItem(article: ArticleBean) {
             .fillMaxWidth()
             .wrapContentHeight()
             .clickable {
-                val intent = Intent(ContextHolder.context, WebViewActivity::class.java).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    putExtra(WebViewActivity.KEY_WEB_VIEW_PATH, article.link)
-                    putExtra(WebViewActivity.KEY_WEB_VIEW_TITLE, article.title)
-                }
-                ContextHolder.context.startActivity(intent)
+                startH5(title = article.title, url = article.link)
             }
             .padding(horizontal = 16.dp)
     ) {

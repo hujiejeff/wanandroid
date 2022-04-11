@@ -1,4 +1,4 @@
-package com.hujiejeff.wanandroid_compose.utils
+package com.hujiejeff.base.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
