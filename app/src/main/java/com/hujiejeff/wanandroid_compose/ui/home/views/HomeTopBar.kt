@@ -22,9 +22,7 @@ fun HomeTopBar(tabItem: TabItem) {
     TopAppBar(
         modifier = Modifier.background(MaterialTheme.colors.primary),
         navigationIcon = {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = tabItem.title)
-            }
+            Text(modifier = Modifier.padding(start = 10.dp), text = tabItem.title)
         },
         title = {
 /*            TextField(
@@ -36,13 +34,17 @@ fun HomeTopBar(tabItem: TabItem) {
         },
         actions = {
             Icon(
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).size(30.dp),
+                modifier = Modifier
+                    .padding(start = 10.dp, end = 10.dp)
+                    .size(30.dp),
                 imageVector = Icons.Filled.Search,
                 contentDescription = null,
                 tint = Color.White
             )
             Icon(
-                modifier = Modifier.padding(end = 10.dp).size(30.dp),
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .size(30.dp),
                 imageVector = Icons.Filled.Settings,
                 contentDescription = null,
                 tint = Color.White

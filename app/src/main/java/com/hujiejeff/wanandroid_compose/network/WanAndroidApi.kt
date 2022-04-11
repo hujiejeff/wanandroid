@@ -49,7 +49,7 @@ interface WanAndroidApi {
     /**
      * 获取体系下面的文章
      */
-    @GET("/article/list/{page}/json?cid=60")
+    @GET("/article/list/{page}/json")
     suspend fun getArticlesByTreeId(
         @Path("page") page: Int,
         @Query("cid") cid: Int

@@ -7,11 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.hujiejeff.wanandroid_compose.ui.home.HomeScreen
+import com.hujiejeff.wanandroid_compose.ui.model.Screen
+import com.hujiejeff.wanandroid_compose.ui.model.TabItem
 import com.hujiejeff.wanandroid_compose.ui.theme.WanandroidcomposeTheme
+import com.hujiejeff.wanandroid_compose.ui.topic.TopicScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,9 +31,31 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    HomeScreen()
+                    NavigationView()
                 }
             }
         }
+    }
+
+    @Composable
+    fun NavigationView() {
+        val navController = rememberNavController()
+        var HomeSelected by remember {
+            mutableStateOf(TabItem.Main)
+        }
+        NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
+            composable(Screen.HomeScreen.route) {
+                HomeScreen(navController = navController)
+            }
+            composable(
+                Screen.TopicScreen.route + "/{title}/{cId}",
+                arguments = listOf(
+                    navArgument("cId") { type = NavType.IntType },
+                    navArgument("title") { type = NavType.StringType })
+            ) { entry ->
+                TopicScreen(navController, entry.arguments?.getInt("cId")!!, entry.arguments?.getString("title")!!)
+            }
+        }
+
     }
 }

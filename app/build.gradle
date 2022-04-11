@@ -67,6 +67,9 @@ dependencies {
 
     implementation "com.google.accompanist:accompanist-swiperefresh:0.24.6-alpha"
 
+    def nav_version = "2.4.1"
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+
 
     implementation project(":base")
 }

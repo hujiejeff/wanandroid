@@ -20,6 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -36,6 +38,7 @@ import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import com.hujiejeff.base.utils.ContextHolder
 import com.hujiejeff.base.utils.showToast
 import com.hujiejeff.base.utils.startH5
+import com.hujiejeff.wanandroid_compose.ui.model.Screen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -43,6 +46,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MainScreen(
+    navController: NavController,
     lazyListState: LazyListState,
     pagerState: PagerState,
     scaffoldState: ScaffoldState
@@ -76,7 +80,7 @@ fun MainScreen(
 
 
     SwipeRefresh(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(bottom = 60.dp),
         state = rememberSwipeRefreshState(mainScreenState.loadingState == LoadingState.RefreshLoading),
         onRefresh = {
             homeViewModel.refreshLoadArticles()
@@ -89,7 +93,7 @@ fun MainScreen(
             ArticleListView(
                 header = {
                     TopBanner(bannerBeans = mainScreenState.banners, pagerState = pagerState)
-                    TopHotTags()
+                    TopHotTags { hotTagItem -> navController.navigate("${Screen.TopicScreen.route}/${hotTagItem.title}/${hotTagItem.cId}") }
                     Spacer(Modifier.size(20.dp))
                 },
                 footer = {
@@ -115,7 +119,7 @@ fun TopBanner(bannerBeans: List<BannerBean>, pagerState: PagerState) {
 
 //热门专题
 @Composable
-fun TopHotTags() {
+fun TopHotTags(onClick: (HotTagItem) -> Unit) {
     val list = listOf(
         HotTagItem.Interview,
         HotTagItem.Share,
@@ -127,18 +131,22 @@ fun TopHotTags() {
         HotTagItem.Kotlin,
     )
     Column() {
-        RowTags(list = list.subList(0, 4))
+        RowTags(list = list.subList(0, 4), onClick)
         Spacer(Modifier.size(20.dp))
-        RowTags(list = list.subList(4, list.size))
+        RowTags(list = list.subList(4, list.size), onClick)
     }
 }
 
 @Composable
-fun RowTags(list: List<HotTagItem>) {
+fun RowTags(list: List<HotTagItem>, onClick: (HotTagItem) -> Unit) {
     Row {
         list.forEach { hotTagItem ->
             Column(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable {
+                        onClick(hotTagItem)
+                    },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
@@ -164,7 +172,7 @@ fun ArticleListView(
 ) {
     LazyColumn(
         modifier = Modifier
-            .absolutePadding(bottom = 60.dp)
+            .fillMaxWidth()
             .background(color = Color.White),
         state = lazyListState,
         verticalArrangement = Arrangement.spacedBy(10.dp),

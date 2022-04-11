@@ -20,15 +20,15 @@ enum class TabItem(val iconSelected: ImageVector, val iconNormal: ImageVector, v
     User(Icons.Filled.Person, Icons.Outlined.Person, "我的"),
 }
 
-enum class HotTagItem(val title: String, @DrawableRes val resIconId: Int) {
-    Interview("面试", R.mipmap.icon_iv),
-    Share("大厂分享", R.mipmap.icon_big),
-    Optimization("性能优化", R.mipmap.icon_op),
-    Pub("官方发布", R.mipmap.icon_daily),
-    JetPack("Jetpack", R.mipmap.icon_jetpack),
-    SourceCode("开源库源码", R.mipmap.icon_open),
-    Framework("Framework", R.mipmap.icon_framework),
-    Kotlin("Kotlin", R.mipmap.icon_kotlin)
+enum class HotTagItem(val title: String, @DrawableRes val resIconId: Int, val cId: Int) {
+    Interview("面试", R.mipmap.icon_iv, 73),
+    Share("大厂分享", R.mipmap.icon_big, 510),
+    Optimization("性能优化", R.mipmap.icon_op, 78),
+    Pub("官方发布", R.mipmap.icon_daily, 78),
+    JetPack("Jetpack", R.mipmap.icon_jetpack, 78),
+    SourceCode("开源库源码", R.mipmap.icon_open, 78),
+    Framework("Framework", R.mipmap.icon_framework, 152),
+    Kotlin("Kotlin", R.mipmap.icon_kotlin, 78)
 }
 
 enum class LoadingState {
@@ -36,6 +36,7 @@ enum class LoadingState {
     IDLE,
     Loading,
     Error,
+    Empty,
     LoadSuccess,
     RefreshLoading,
     RefreshSuccess,
@@ -48,3 +49,20 @@ class MainScreenState(
     val articles: List<ArticleBean>,
     val loadingState: LoadingState = LoadingState.UnInit
 )
+
+class TopicScreenState(
+    val articles: List<ArticleBean>,
+    val loadingState: LoadingState = LoadingState.UnInit
+)
+
+sealed class Screen(val route: String) {
+    private companion object {
+        private const val KEY_TOPIC_ID = "key_topic_id"
+        private const val ROUTE_LOGIN = "route_Login"
+        private const val ROUTE_TOPIC = "route_topic"
+        private const val ROUTE_HOME = "route_home"
+    }
+    object HomeScreen: Screen(route = ROUTE_HOME)
+    object LoginScreen: Screen(route = ROUTE_LOGIN)
+    object TopicScreen: Screen(route = ROUTE_TOPIC)
+}

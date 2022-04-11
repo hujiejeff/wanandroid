@@ -1,37 +1,23 @@
-package com.hujiejeff.wanandroid_compose.ui.home
+package com.hujiejeff.wanandroid_compose.ui.topic
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hujiejeff.wanandroid_compose.network.DataModel
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
-import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
 import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
-import com.hujiejeff.wanandroid_compose.ui.model.MainScreenState
+import com.hujiejeff.wanandroid_compose.ui.model.TopicScreenState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
-    private val _banners = mutableListOf<BannerBean>()
+class TopicViewModel : ViewModel() {
     private val _articles = mutableListOf<ArticleBean>()
-    private var page = 1
+    private var page = 0
+    var cId = 0
 
-    val mainScreenState =
-        MutableStateFlow(MainScreenState(emptyList(), emptyList(), LoadingState.UnInit))
-
-    /**
-     * 加载Banner
-     */
-    fun loadBanners() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val bannerBeanRep = DataModel.getBanners()
-            if (bannerBeanRep.errorCode != -1) {
-                _banners.addAll(bannerBeanRep.data!!)
-            }
-        }
-    }
+    val topicScreenState =
+        MutableStateFlow(TopicScreenState(emptyList(), LoadingState.UnInit))
 
     /**
      * 刷新
@@ -61,19 +47,24 @@ class HomeViewModel : ViewModel() {
      */
     private fun loadArticles(page: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val articleBeanRep = DataModel.getMainArticles(page)
+            delay(1000)
+            val articleBeanRep = DataModel.getArticlesByTreeId(page = page, cid = cId)
             if (articleBeanRep.errorCode != -1) {
                 if (page == 1) {
                     _articles.clear()
                 }
                 _articles.addAll(articleBeanRep.data!!.datas)
-                when (mainScreenState.value.loadingState) {
-                    LoadingState.Loading, LoadingState.LoadingMore -> refreshViewState(LoadingState.LoadSuccess)
+                when (topicScreenState.value.loadingState) {
+                    LoadingState.Loading, LoadingState.LoadingMore -> {
+                        if (_articles.isEmpty()) {
+                            refreshViewState(LoadingState.Empty)
+                        } else {
+                            refreshViewState(LoadingState.LoadSuccess)
+                        }
+                    }
                     LoadingState.RefreshLoading -> refreshViewState(LoadingState.RefreshSuccess)
                     else -> {}
                 }
-                delay(100)
-                refreshViewState(LoadingState.IDLE)
             } else {
                 refreshViewState(LoadingState.Error)
             }
@@ -81,7 +72,7 @@ class HomeViewModel : ViewModel() {
     }
 
     private fun refreshViewState(loadingState: LoadingState) {
-        mainScreenState.value =
-            MainScreenState(_banners, _articles, loadingState)
+        topicScreenState.value =
+            TopicScreenState(_articles, loadingState)
     }
 }

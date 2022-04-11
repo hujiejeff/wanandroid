@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.hujiejeff.wanandroid_compose.ui.home.page.MainScreen
@@ -26,7 +27,7 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     var selected by remember {
         mutableStateOf(TabItem.Main)
     }
@@ -75,6 +76,7 @@ fun HomeScreen() {
         when (selected) {
             TabItem.Main -> {
                 MainScreen(
+                    navController = navController,
                     lazyListState = lazyListState,
                     pagerState = pagerState,
                     scaffoldState = scaffoldState,
