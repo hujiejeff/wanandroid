@@ -24,11 +24,11 @@ enum class HotTagItem(val title: String, @DrawableRes val resIconId: Int, val cI
     Interview("面试", R.mipmap.icon_iv, 73),
     Share("大厂分享", R.mipmap.icon_big, 510),
     Optimization("性能优化", R.mipmap.icon_op, 78),
-    Pub("官方发布", R.mipmap.icon_daily, 78),
-    JetPack("Jetpack", R.mipmap.icon_jetpack, 78),
-    SourceCode("开源库源码", R.mipmap.icon_open, 78),
+    Pub("官方发布", R.mipmap.icon_daily, 269),
+    JetPack("Jetpack", R.mipmap.icon_jetpack, 422),
+    SourceCode("开源库源码", R.mipmap.icon_open, 460),
     Framework("Framework", R.mipmap.icon_framework, 152),
-    Kotlin("Kotlin", R.mipmap.icon_kotlin, 78)
+    Kotlin("Kotlin", R.mipmap.icon_kotlin, 232)
 }
 
 enum class LoadingState {
