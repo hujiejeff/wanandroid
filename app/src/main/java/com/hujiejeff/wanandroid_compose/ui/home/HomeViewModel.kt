@@ -1,5 +1,6 @@
 package com.hujiejeff.wanandroid_compose.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hujiejeff.wanandroid_compose.network.DataModel
@@ -28,6 +29,8 @@ class HomeViewModel : ViewModel() {
             val bannerBeanRep = DataModel.getBanners()
             if (bannerBeanRep.errorCode != -1) {
                 _banners.addAll(bannerBeanRep.data!!)
+            } else {
+                refreshViewState(LoadingState.Error)
             }
         }
     }
@@ -71,11 +74,11 @@ class HomeViewModel : ViewModel() {
                     LoadingState.RefreshLoading -> refreshViewState(LoadingState.RefreshSuccess)
                     else -> {}
                 }
+                delay(100)
+                refreshViewState(LoadingState.IDLE)
             } else {
                 refreshViewState(LoadingState.Error)
             }
-            delay(100)
-            refreshViewState(LoadingState.IDLE)
         }
     }
 
