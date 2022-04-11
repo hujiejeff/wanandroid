@@ -4,4 +4,14 @@
     package="com.hujiejeff.base">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
+    <application>
+        <activity
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:name=".webview.WebViewActivity"
+            android:exported="false" />
+    </application>
+
 </manifest>
