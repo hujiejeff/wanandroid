@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.hujiejeff.wanandroid_compose.network.DataModel
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
 import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
+import com.hujiejeff.wanandroid_compose.network.bean.TreeBean
 import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import com.hujiejeff.wanandroid_compose.ui.model.MainScreenState
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,20 @@ class HomeViewModel : ViewModel() {
 
     val mainScreenState =
         MutableStateFlow(MainScreenState(emptyList(), emptyList(), LoadingState.UnInit))
+
+    val projectTrees = mutableListOf<TreeBean>()
+
+    fun startupLoadData() {
+        viewModelScope.launch {
+            loadBanners()
+        }
+        viewModelScope.launch {
+            loadProjectTrees()
+        }
+        viewModelScope.launch {
+            firstLoadArticles()
+        }
+    }
 
     /**
      * 加载Banner
@@ -40,6 +55,18 @@ class HomeViewModel : ViewModel() {
         page = 1
         refreshViewState(LoadingState.Loading)
         loadArticles(page)
+    }
+
+    /**
+     * 加载项目分类
+     */
+    fun loadProjectTrees() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val projectTreesRep = DataModel.getProjectTree()
+            if (projectTreesRep.errorCode != -1) {
+                projectTrees.addAll(projectTreesRep.data!!)
+            }
+        }
     }
 
     fun refreshLoadArticles() {

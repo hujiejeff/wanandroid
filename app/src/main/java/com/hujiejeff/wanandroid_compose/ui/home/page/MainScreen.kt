@@ -57,10 +57,7 @@ fun MainScreen(
     if (mainScreenState.loadingState == LoadingState.UnInit) {
         LaunchedEffect(Unit) {
             launch {
-                homeViewModel.loadBanners()
-            }
-            launch {
-                homeViewModel.firstLoadArticles()
+                homeViewModel.startupLoadData()
             }
         }
     }
