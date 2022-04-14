@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -14,8 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.pager.*
 import com.hujiejeff.wanandroid_compose.network.bean.TreeBean
 import com.hujiejeff.wanandroid_compose.ui.home.HomeViewModel
-import com.hujiejeff.wanandroid_compose.ui.home.views.SwipeRefreshArticleListView
-import com.hujiejeff.wanandroid_compose.ui.model.ArticleListState
+import com.hujiejeff.wanandroid_compose.ui.common.SwipeRefreshArticleListView
 import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import kotlinx.coroutines.launch
 

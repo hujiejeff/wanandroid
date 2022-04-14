@@ -13,14 +13,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 
-import com.hujiejeff.wanandroid_compose.ui.home.views.SwipeRefreshArticleListView
+import com.hujiejeff.wanandroid_compose.ui.common.SwipeRefreshArticleListView
 import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 

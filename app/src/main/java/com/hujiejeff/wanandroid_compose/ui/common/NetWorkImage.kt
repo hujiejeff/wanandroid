@@ -41,7 +41,6 @@ fun NewWorkImage(
         data = data,
         imageLoader = LocalContext.current.imageLoader,
         builder = {
-            placeholder(R.drawable.ic_launcher_background)
         })
     Image(
         modifier = modifier,
