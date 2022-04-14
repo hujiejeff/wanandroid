@@ -1,5 +1,6 @@
 package com.hujiejeff.wanandroid_compose.ui.home.views
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -7,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.hujiejeff.wanandroid_compose.ui.model.TabItem
@@ -36,6 +38,7 @@ private fun RowScope.BottomNavigationItem(
     val unSelectorColor = Color.Black
     val color = if (item == selected) selectorColor else unSelectorColor
     val icon = if (item == selected) item.iconSelected else item.iconNormal
+    val scale: Float by animateFloatAsState(if (item == selected) 1.2f else 1f)
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -47,7 +50,10 @@ private fun RowScope.BottomNavigationItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Icon(imageVector = icon, contentDescription = null, tint = color)
+        Icon(modifier = Modifier
+            .wrapContentWidth()
+            .scale(scale = scale), imageVector = icon, contentDescription = null, tint = color)
+        Spacer(modifier = Modifier.size(5.dp))
         Text(text = item.title, color = color)
     }
 } 

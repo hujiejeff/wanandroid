@@ -19,9 +19,9 @@ object CoilImageLoader {
             ImageLoader.Builder(context)
                 .crossfade(false)
                 .allowHardware(true)
-                .placeholder(R.drawable.ic_launcher_background)
-                .fallback(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.shape_img_place_holder)
+                .fallback(R.drawable.shape_img_place_holder)
+                .error(R.drawable.shape_img_place_holder)
                 .build().apply {
                     Coil.setImageLoader(this)
                 }
