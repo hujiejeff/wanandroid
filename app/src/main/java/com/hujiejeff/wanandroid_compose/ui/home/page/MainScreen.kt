@@ -77,7 +77,7 @@ fun MainScreen(
 
 
     SwipeRefresh(
-        modifier = Modifier.fillMaxSize().padding(bottom = 60.dp),
+        modifier = Modifier.fillMaxSize(),
         state = rememberSwipeRefreshState(mainScreenState.loadingState == LoadingState.RefreshLoading),
         onRefresh = {
             homeViewModel.refreshLoadArticles()

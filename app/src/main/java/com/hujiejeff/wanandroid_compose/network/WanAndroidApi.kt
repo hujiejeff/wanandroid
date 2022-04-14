@@ -76,8 +76,11 @@ interface WanAndroidApi {
     /**
      * 某个分类下的项目
      */
-    @GET("/project/list/1/json?cid=294")
-    suspend fun getProjectsByCid(@Query("cid") cid: Int): BaseBean<PageBean<ArticleBean>>
+    @GET("/project/list/{page}/json")
+    suspend fun getProjectsByCid(
+        @Path("page") page: Int,
+        @Query("cid") cid: Int
+    ): BaseBean<PageBean<ArticleBean>>
 
     //问答
 
@@ -187,7 +190,10 @@ interface WanAndroidApi {
 
     @POST("/article/query/{page}/json")
     @FormUrlEncoded
-    suspend fun search(@Path("page") page: Int, @Field("k") key: String):BaseBean<PageBean<ArticleBean>>
+    suspend fun search(
+        @Path("page") page: Int,
+        @Field("k") key: String
+    ): BaseBean<PageBean<ArticleBean>>
 
     //积分
 

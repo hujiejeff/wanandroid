@@ -55,6 +55,11 @@ class TopicScreenState(
     val loadingState: LoadingState = LoadingState.UnInit
 )
 
+class ArticleListState(
+    val articles: List<ArticleBean>,
+    val loadingState: LoadingState = LoadingState.UnInit
+)
+
 sealed class Screen(val route: String) {
     private companion object {
         private const val KEY_TOPIC_ID = "key_topic_id"
@@ -62,7 +67,8 @@ sealed class Screen(val route: String) {
         private const val ROUTE_TOPIC = "route_topic"
         private const val ROUTE_HOME = "route_home"
     }
-    object HomeScreen: Screen(route = ROUTE_HOME)
-    object LoginScreen: Screen(route = ROUTE_LOGIN)
-    object TopicScreen: Screen(route = ROUTE_TOPIC)
+
+    object HomeScreen : Screen(route = ROUTE_HOME)
+    object LoginScreen : Screen(route = ROUTE_LOGIN)
+    object TopicScreen : Screen(route = ROUTE_TOPIC)
 }

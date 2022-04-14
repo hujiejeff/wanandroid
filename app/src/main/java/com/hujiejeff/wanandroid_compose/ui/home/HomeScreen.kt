@@ -1,7 +1,10 @@
 package com.hujiejeff.wanandroid_compose.ui.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 
@@ -15,7 +18,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.hujiejeff.wanandroid_compose.ui.home.page.MainScreen
-import com.hujiejeff.wanandroid_compose.ui.home.page.TreeScreen
+import com.hujiejeff.wanandroid_compose.ui.home.project.ProjectScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.UserScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.WechatScreen
 import com.hujiejeff.wanandroid_compose.ui.home.views.HomeBottomBar
@@ -73,23 +76,25 @@ fun HomeScreen(navController: NavController) {
             }
         }
     ) {
-        when (selected) {
-            TabItem.Main -> {
-                MainScreen(
-                    navController = navController,
-                    lazyListState = lazyListState,
-                    pagerState = pagerState,
-                    scaffoldState = scaffoldState,
-                )
-            }
-            TabItem.Tree -> {
-                TreeScreen()
-            }
-            TabItem.Wechat -> {
-                WechatScreen()
-            }
-            TabItem.User -> {
-                UserScreen()
+        Box(modifier = Modifier.absolutePadding(bottom = 60.dp)) {
+            when (selected) {
+                TabItem.Main -> {
+                    MainScreen(
+                        navController = navController,
+                        lazyListState = lazyListState,
+                        pagerState = pagerState,
+                        scaffoldState = scaffoldState,
+                    )
+                }
+                TabItem.Tree -> {
+                    ProjectScreen()
+                }
+                TabItem.Wechat -> {
+                    WechatScreen()
+                }
+                TabItem.User -> {
+                    UserScreen()
+                }
             }
         }
     }
