@@ -73,7 +73,7 @@ fun MainScreen(
         },
         onRefresh = homeViewModel::refreshLoadArticles,
         onLoadMore = homeViewModel::loadMoreArticles,
-        onRetry = homeViewModel::firstLoadArticles
+        onRetry = homeViewModel::startupLoadData
     ) {data: ArticleBean ->  
         ArticleItem(article = data)
     }

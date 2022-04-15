@@ -50,7 +50,7 @@ class HomeViewModel : ViewModel() {
     /**
      * 刷新
      */
-    fun firstLoadArticles() {
+    private fun firstLoadArticles() {
         page = 1
         refreshViewState(LoadingState.Loading)
         loadArticles(page)
