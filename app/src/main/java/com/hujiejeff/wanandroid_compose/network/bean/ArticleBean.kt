@@ -1,7 +1,5 @@
 package com.hujiejeff.wanandroid_compose.network.bean
 
-import java.util.concurrent.TimeUnit
-
 data class ArticleBean(
     val apkLink: String,
     val audit: Int,

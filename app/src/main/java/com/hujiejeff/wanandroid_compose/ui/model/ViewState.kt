@@ -6,8 +6,10 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material.icons.rounded.Place
+import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Place
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.hujiejeff.wanandroid_compose.R
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean

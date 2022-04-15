@@ -1,8 +1,10 @@
 package com.hujiejeff.wanandroid_compose.ui.home.page
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -11,7 +13,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,23 +26,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.hujiejeff.base.utils.TimeUtil
 import com.hujiejeff.base.utils.TimeUtil.YYYY_MM_DD_HH_MM
-import com.hujiejeff.base.webview.WebViewActivity
+import com.hujiejeff.base.utils.startH5
 import com.hujiejeff.wanandroid_compose.network.bean.ArticleBean
 import com.hujiejeff.wanandroid_compose.network.bean.BannerBean
 import com.hujiejeff.wanandroid_compose.ui.common.BannerImg
+import com.hujiejeff.wanandroid_compose.ui.common.SwipeRefreshListView
 import com.hujiejeff.wanandroid_compose.ui.home.HomeViewModel
 import com.hujiejeff.wanandroid_compose.ui.model.HotTagItem
 import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
-import com.hujiejeff.base.utils.ContextHolder
-import com.hujiejeff.base.utils.showToast
-import com.hujiejeff.base.utils.startH5
 import com.hujiejeff.wanandroid_compose.ui.model.Screen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -53,7 +53,6 @@ fun MainScreen(
 ) {
     val homeViewModel = viewModel<HomeViewModel>()
     val mainScreenState by homeViewModel.mainScreenState.collectAsState()
-    val cornerShape = rememberCoroutineScope()
     if (mainScreenState.loadingState == LoadingState.UnInit) {
         LaunchedEffect(Unit) {
             launch {
@@ -62,44 +61,21 @@ fun MainScreen(
         }
     }
 
-    when (mainScreenState.loadingState) {
-        LoadingState.LoadSuccess -> {
-            showToast("加载成功")
-        }
-        LoadingState.Error -> {
-            showToast("加载失败")
-        }
-        LoadingState.RefreshSuccess -> {
-            showToast("刷新成功")
-        }
-        else -> {}
-    }
-
-
-    SwipeRefresh(
+    SwipeRefreshListView(
         modifier = Modifier.fillMaxSize(),
-        state = rememberSwipeRefreshState(mainScreenState.loadingState == LoadingState.RefreshLoading),
-        onRefresh = {
-            homeViewModel.refreshLoadArticles()
+        dataList = mainScreenState.articles,
+        loadingState = mainScreenState.loadingState,
+        lazyListState = lazyListState,
+        header = {
+            TopBanner(bannerBeans = mainScreenState.banners, pagerState = pagerState)
+            TopHotTags { hotTagItem -> navController.navigate("${Screen.TopicScreen.route}/${hotTagItem.title}/${hotTagItem.cId}") }
+            Spacer(Modifier.size(20.dp))
         },
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            ArticleListView(
-                header = {
-                    TopBanner(bannerBeans = mainScreenState.banners, pagerState = pagerState)
-                    TopHotTags { hotTagItem -> navController.navigate("${Screen.TopicScreen.route}/${hotTagItem.title}/${hotTagItem.cId}") }
-                    Spacer(Modifier.size(20.dp))
-                },
-                footer = {
-
-                },
-                articles = mainScreenState.articles, lazyListState = lazyListState,
-                onLoadMore = { homeViewModel.loadMoreArticles() }
-            )
-        }
+        onRefresh = homeViewModel::refreshLoadArticles,
+        onLoadMore = homeViewModel::loadMoreArticles,
+        onRetry = homeViewModel::firstLoadArticles
+    ) {data: ArticleBean ->  
+        ArticleItem(article = data)
     }
 }
 

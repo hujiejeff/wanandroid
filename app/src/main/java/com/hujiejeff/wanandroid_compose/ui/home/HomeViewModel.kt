@@ -1,6 +1,5 @@
 package com.hujiejeff.wanandroid_compose.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hujiejeff.wanandroid_compose.network.DataModel

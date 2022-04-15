@@ -1,6 +1,5 @@
 package com.hujiejeff.wanandroid_compose.ui.common
 
-import android.content.ClipDescription
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable

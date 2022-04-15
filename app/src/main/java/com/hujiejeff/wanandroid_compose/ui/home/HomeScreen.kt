@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
-
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
@@ -18,12 +16,11 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.hujiejeff.wanandroid_compose.ui.home.page.MainScreen
-import com.hujiejeff.wanandroid_compose.ui.home.project.ProjectScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.UserScreen
 import com.hujiejeff.wanandroid_compose.ui.home.page.WechatScreen
+import com.hujiejeff.wanandroid_compose.ui.home.project.ProjectScreen
 import com.hujiejeff.wanandroid_compose.ui.home.views.HomeBottomBar
 import com.hujiejeff.wanandroid_compose.ui.home.views.HomeTopBar
-
 import com.hujiejeff.wanandroid_compose.ui.model.TabItem
 import kotlinx.coroutines.launch
 
