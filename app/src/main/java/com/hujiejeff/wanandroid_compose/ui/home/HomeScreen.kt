@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
@@ -36,6 +38,8 @@ fun HomeScreen(navController: NavController) {
     val coroutineScope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scaffoldState = rememberScaffoldState(drawerState = drawerState)
+
+    val projectPagerState = rememberPagerState()
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -84,7 +88,7 @@ fun HomeScreen(navController: NavController) {
                     )
                 }
                 TabItem.Tree -> {
-                    ProjectScreen()
+                    ProjectScreen(pagerState = projectPagerState)
                 }
                 TabItem.Wechat -> {
                     WechatScreen()

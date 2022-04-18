@@ -3,6 +3,7 @@ package com.hujiejeff.wanandroid_compose.ui.home.project
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
@@ -23,12 +24,10 @@ import com.hujiejeff.wanandroid_compose.ui.model.LoadingState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
-@Preview(showBackground = true)
 @Composable
-fun ProjectScreen() {
+fun ProjectScreen(pagerState: PagerState) {
     val viewModel = viewModel<HomeViewModel>()
     val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState()
     val projectTrees = viewModel.projectTrees
     Column {
         ScrollableTabRow(
@@ -58,17 +57,16 @@ fun ProjectScreen() {
             count = projectTrees.size,
             state = pagerState,
         ) { page ->
-            ProjectPage(treeBean = projectTrees[page], state = pagerState, index = page)
+            ProjectPage(treeBean = projectTrees[page], state = pagerState, index = page, lazyListState = rememberLazyListState())
         }
     }
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ProjectPage(treeBean: TreeBean, state: PagerState, index: Int) {
+fun ProjectPage(treeBean: TreeBean, state: PagerState, index: Int, lazyListState: LazyListState) {
     val projectViewModel = viewModel<ProjectViewModel>(key = treeBean.name)
     val articleListState by projectViewModel.articlesState.collectAsState()
-    val lazyListState = rememberLazyListState()
     if (articleListState.loadingState == LoadingState.UnInit && state.currentPage == index) {
         LaunchedEffect(Unit) {
             launch {
