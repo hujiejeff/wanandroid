@@ -1,5 +1,7 @@
 # WanAndroid-Compose 版本
 
-# 2022.6.3 提交代码保持E5订阅
+# 2022.6.3 提交代码保持
 
-# 2022.6.10 some change for E5 
+# 2022.6.10 some change
+
+# 2022.6.17 keep change
