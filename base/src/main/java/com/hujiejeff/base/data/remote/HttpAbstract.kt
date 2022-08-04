@@ -12,6 +12,7 @@ abstract class HttpAbstract {
         const val TIME_OUT = 30L
     }
     private lateinit var retrofit: Retrofit
+    private val apiMaps = mutableMapOf<Class<*>, Any>()
 
     fun getRetrofit(): Retrofit {
         if (!this::retrofit.isInitialized) {
@@ -33,6 +34,20 @@ abstract class HttpAbstract {
                 .build()
         }
         return retrofit
+    }
+
+    inline fun <reified T> getApi(): T{
+        val clazz = T::class.java
+        return getApi(clazz)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getApi(clazz: Class<T>): T {
+        if (!apiMaps.contains(clazz)) {
+            val api = getRetrofit().create(clazz)
+            apiMaps[clazz] = api!!
+        }
+        return apiMaps[clazz] as T
     }
 
     abstract fun getInterceptors(): List<Interceptor>
