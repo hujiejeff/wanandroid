@@ -8,7 +8,7 @@ abstract class BaseMvvmActivity<V: ViewBinding, VM: BaseViewModel>: BaseActivity
     val mViewModel: VM by lazy {
         val type = javaClass.genericSuperclass
         val vmClass: Class<VM> = (type as ParameterizedType).actualTypeArguments[1] as Class<VM>
-        ViewModelProvider(this, defaultViewModelProviderFactory).get(vmClass)
+        ViewModelProvider(this, defaultViewModelProviderFactory)[vmClass]
     }
 
     override fun initData() {
