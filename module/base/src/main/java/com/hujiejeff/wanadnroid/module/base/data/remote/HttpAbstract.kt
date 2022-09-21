@@ -12,6 +12,7 @@ abstract class HttpAbstract {
         const val TIME_OUT = 30L
     }
     private lateinit var retrofit: Retrofit
+    private val apiMaps = mutableMapOf<Class<*>, Any>()
 
     fun getRetrofit(): Retrofit {
         if (!this::retrofit.isInitialized) {
@@ -26,6 +27,9 @@ abstract class HttpAbstract {
             val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
             builder.addInterceptor(logger)
 
+            if (baseUrl.isBlank()) {
+                throw Exception("BaseUrl is Empty, you must set it")
+            }
             retrofit = Retrofit.Builder()
                 .client(builder.build())
                 .baseUrl(baseUrl)
@@ -33,6 +37,20 @@ abstract class HttpAbstract {
                 .build()
         }
         return retrofit
+    }
+
+    inline fun <reified T> getApi(): T{
+        val clazz = T::class.java
+        return getApi(clazz)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getApi(clazz: Class<T>): T {
+        if (!apiMaps.contains(clazz)) {
+            val api = getRetrofit().create(clazz)
+            apiMaps[clazz] = api!!
+        }
+        return apiMaps[clazz] as T
     }
 
     abstract fun getInterceptors(): List<Interceptor>

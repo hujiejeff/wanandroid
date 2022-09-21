@@ -1,8 +1,7 @@
 package com.hujiejeff.wanandroid.module.common
 
-import com.hujiejeff.wanadnroid.module.base.data.remote.GlobalHttp
 import kotlinx.coroutines.runBlocking
-import network.WanAndroidApi
+import network.DataModel
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -20,7 +19,7 @@ class ExampleUnitTest {
 
     @Test
     fun testApi() = runBlocking {
-        val rep = GlobalHttp.getInstance().getApi(WanAndroidApi::class.java).getMainArticles(0)
+        val rep = DataModel.getMainArticles(0)
         println(rep)
     }
 }

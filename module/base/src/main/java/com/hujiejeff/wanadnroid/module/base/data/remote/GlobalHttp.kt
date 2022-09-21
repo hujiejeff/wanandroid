@@ -3,6 +3,7 @@ package com.hujiejeff.wanadnroid.module.base.data.remote
 import com.hujiejeff.wanadnroid.module.base.data.remote.interceptor.NetStateInterceptor
 import okhttp3.Interceptor
 
+/*
 class GlobalHttp private constructor(): HttpAbstract() {
     override fun getInterceptors(): List<Interceptor> = listOf(NetStateInterceptor())
     override val baseUrl: String = "https://www.wanandroid.com"
@@ -26,4 +27,14 @@ class GlobalHttp private constructor(): HttpAbstract() {
         return apiMaps[clazz] as T
     }
 
+}*/
+
+object GlobalHttp : HttpAbstract() {
+    override fun getInterceptors(): List<Interceptor> = listOf(NetStateInterceptor())
+    fun build(baseUrl: String): GlobalHttp {
+        this.baseUrl = baseUrl
+        return this
+    }
+
+    override var baseUrl: String = "https://www.wanandroid.com"
 }
