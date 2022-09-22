@@ -6,7 +6,7 @@ import com.hujiejeff.wanadnroid.module.base.constans.RouteMap
 import com.hujiejeff.wanandroid.module.square.databinding.SquareFragmentHomeBinding
 
 @Route(path = RouteMap.Square.HOME_FRAGMENT)
-class HomeFragment: BaseFragment<SquareFragmentHomeBinding>() {
+class Square: BaseFragment<SquareFragmentHomeBinding>() {
     override fun SquareFragmentHomeBinding.initView() {
 
     }

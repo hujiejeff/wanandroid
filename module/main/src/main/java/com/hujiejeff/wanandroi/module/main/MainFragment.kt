@@ -6,8 +6,13 @@ import com.hujiejeff.wanadnroid.module.base.constans.RouteMap
 import com.hujiejeff.wanandroi.module.main.databinding.MainFragmentHomeBinding
 
 @Route(path = RouteMap.Main.HOME_FRAGMENT)
-class HomeFragment: BaseFragment<MainFragmentHomeBinding>() {
+class MainFragment: BaseFragment<MainFragmentHomeBinding>() {
     override fun MainFragmentHomeBinding.initView() {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
 
     }
 }

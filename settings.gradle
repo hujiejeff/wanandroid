@@ -10,3 +10,5 @@ include ':module:search'
 include ':module:login'
 include ':app'
 rootProject.name = "WanAndroid"
+include ':module:tree'
+include ':module:entry'

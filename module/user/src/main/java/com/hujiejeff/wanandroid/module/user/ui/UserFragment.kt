@@ -6,7 +6,7 @@ import com.hujiejeff.wanadnroid.module.base.constans.RouteMap
 import com.hujiejeff.wanandroid.module.user.databinding.UserFragmentHomeBinding
 
 @Route(path = RouteMap.User.HOME_FRAGMENT)
-class HomeFragment: BaseFragment<UserFragmentHomeBinding>() {
+class UserFragment: BaseFragment<UserFragmentHomeBinding>() {
     override fun UserFragmentHomeBinding.initView() {
 
     }

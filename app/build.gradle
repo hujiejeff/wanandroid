@@ -53,12 +53,18 @@ kapt {
 }
 
 dependencies {
-    implementation project(":module:base")
+    implementation project(":module:common")
     kapt rootProject.ext.dependencies['arouter-compiler']
 
     if (!isBuildModule.toBoolean()) {
         implementation project(":module:login")
         implementation project(":module:search")
+        implementation project(":module:main")
+        implementation project(":module:user")
+        implementation project(":module:project")
+        implementation project(":module:square")
+        implementation project(":module:tree")
+        implementation project(":module:entry")
     }
 
 }

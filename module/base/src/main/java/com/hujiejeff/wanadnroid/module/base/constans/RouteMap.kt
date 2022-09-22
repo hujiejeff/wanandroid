@@ -23,6 +23,10 @@ interface RouteMap {
         const val HOME_FRAGMENT = "/square/HomeFragment"
     }
 
+    object Tree {
+        const val HOME_FRAGMENT = "/tree/HomeFragment"
+    }
+
     object User {
         const val HOME_FRAGMENT = "/user/HomeFragment"
     }

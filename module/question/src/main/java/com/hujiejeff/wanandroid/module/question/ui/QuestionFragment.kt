@@ -6,7 +6,7 @@ import com.hujiejeff.wanadnroid.module.base.constans.RouteMap
 import com.hujiejeff.wanandroid.module.question.databinding.QuestionFragmentHomeBinding
 
 @Route(path = RouteMap.Question.HOME_FRAGMENT)
-class HomeFragment: BaseFragment<QuestionFragmentHomeBinding>() {
+class QuestionFragment: BaseFragment<QuestionFragmentHomeBinding>() {
     override fun QuestionFragmentHomeBinding.initView() {
 
     }
