@@ -1,5 +1,6 @@
 package com.hujiejeff.wanandroi.module.main
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hujiejeff.wanadnroid.module.base.base.BaseViewModel
 import com.hujiejeff.wanadnroid.module.base.data.remote.bean.BaseBean
@@ -16,6 +17,8 @@ class MainViewModel : BaseViewModel() {
     val dataState: MutableStateFlow<MainDataState> =
         MutableStateFlow(MainDataState(emptyList(), emptyList()))
 
+    val banner = MutableLiveData<List<BannerBean>>()
+
     fun requestData() {
         viewModelScope.launch {
             val bannerJob = async(Dispatchers.IO) { DataModel.getBanners() }
@@ -23,6 +26,7 @@ class MainViewModel : BaseViewModel() {
             val bannerBean: BaseBean<List<BannerBean>> = bannerJob.await()
             val articlesBean: BaseBean<PageBean<ArticleBean>> = articlesJob.await()
             refreshDataState(bannerBean.data!!, articlesBean.data!!.datas)
+            banner.value = bannerBean.data!!
         }
     }
 

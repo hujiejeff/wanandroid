@@ -16,7 +16,9 @@ import com.hujiejeff.wanadnroid.module.base.ext.loadUrl
 import com.hujiejeff.wanandroi.module.main.databinding.MainFragmentHomeBinding
 import com.hujiejeff.wanandroi.module.main.databinding.MainIncludeFragmentHomeHeaderBinding
 import com.hujiejeff.wanandroid.module.common.databinding.ItemArticleBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 import network.bean.ArticleBean
 import network.bean.BannerBean
 
@@ -43,12 +45,15 @@ class MainFragment : BaseMvvmFragment<MainFragmentHomeBinding, MainViewModel>() 
     override fun initData() {
         super.initData()
         mViewModel.requestData()
+        mViewModel.banner.observe(this@MainFragment) {
+            mHeaderBinding.banner.setData(it, null)
+        }
     }
 
     override suspend fun MainViewModel.subscribe() {
-        dataState.asStateFlow().collect {
+        dataState.collect {
             (mBinding.recyclerView.adapter as Adapter).setList(it.articles)
-            mHeaderBinding.banner.setData(it.banner, null)
+//            mHeaderBinding.banner.setData(it.banner, null) //todo banner有问题
         }
     }
 
