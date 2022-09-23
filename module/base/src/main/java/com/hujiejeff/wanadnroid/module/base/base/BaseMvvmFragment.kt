@@ -1,8 +1,13 @@
 package com.hujiejeff.wanadnroid.module.base.base
 
 import android.os.Bundle
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.lang.reflect.ParameterizedType
 
 open class BaseMvvmFragment<VB: ViewBinding, VM: BaseViewModel>: BaseFragment<VB>() {
@@ -18,8 +23,13 @@ open class BaseMvvmFragment<VB: ViewBinding, VM: BaseViewModel>: BaseFragment<VB
     }
 
     open fun initData() {
-        mViewModel.subscribe()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mViewModel.subscribe()
+            }
+        }
+
     }
 
-    open fun VM.subscribe() {}
+    open suspend fun VM.subscribe() {}
 }

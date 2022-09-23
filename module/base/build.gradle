@@ -39,4 +39,18 @@ dependencies {
     testApi rootProject.ext.test['junit']
     androidTestApi rootProject.ext.test['android-junit']
     androidTestApi  rootProject.ext.test['espresso-core']
+
+
+
+    //banner
+    def banner_version = "3.0.1"
+    api "androidx.legacy:legacy-support-v4:1.0.0"
+    api "com.github.bingoogolapple:BGABanner-Android:$banner_version"
+
+    //smart refresh view
+    api  'io.github.scwang90:refresh-layout-kernel:2.0.5'      //核心必须依赖
+    api  'io.github.scwang90:refresh-header-classics:2.0.5'    //经典刷新头
+
+    //recycle view adapter
+    api "io.github.cymchad:BaseRecyclerViewAdapterHelper:3.0.8"
 }

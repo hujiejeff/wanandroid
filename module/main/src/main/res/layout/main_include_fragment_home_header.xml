@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cn.bingoogolapple.bgabanner.BGABanner
+        android:background="#000"
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:banner_pageChangeDuration="1000"
+        app:banner_pointAutoPlayAble="true"
+        app:banner_pointContainerBackground="@android:color/transparent"
+        app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
+        app:banner_pointTopBottomMargin="15dp"
+        app:banner_transitionEffect="alpha"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="面试"
+        android:id="@+id/tv_interview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="2dp"
+        android:drawableTop="@mipmap/icon_iv" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:drawablePadding="2dp"
+        android:text="大厂分享"
+        android:id="@+id/tv_share"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/icon_big" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:drawablePadding="2dp"
+        android:text="性能优化"
+        android:id="@+id/tv_optimization"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/icon_op" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:drawablePadding="2dp"
+        android:text="官方发布"
+        android:id="@+id/tv_pub"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/icon_daily" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:drawablePadding="2dp"
+        android:text="Jetpack"
+        android:id="@+id/tv_jetpack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/icon_jetpack" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:drawablePadding="2dp"
+        android:text="开源库源码"
+        android:id="@+id/tv_sourcecode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/icon_open" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:drawablePadding="2dp"
+        android:text="Framework"
+        android:id="@+id/tv_framework"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/icon_framework" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:drawablePadding="2dp"
+        android:text="Kotlin"
+        android:id="@+id/tv_kotlin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/icon_kotlin" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_marginTop="10dp"
+        app:flow_verticalGap="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="tv_interview, tv_share, tv_optimization, tv_pub, tv_jetpack, tv_sourcecode, tv_framework, tv_kotlin"
+        app:flow_maxElementsWrap="4"
+        app:flow_wrapMode="aligned"
+        app:layout_constraintTop_toBottomOf="@+id/banner"
+        tools:layout_editor_absoluteX="0dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
