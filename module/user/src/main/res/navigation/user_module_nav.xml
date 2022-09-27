@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/user_module_nav">
+
+    <fragment
+        app:route="setting"
+        android:id="@+id/user_setting_fragment"
+        android:name="com.hujiejeff.wanandroid.module.user.ui.settting.SettingFragment"
+        android:label="SettingFragment" >
+        <deepLink app:uri="http://www.wanandroid.com/setting/"/>
+    </fragment>
+    <fragment
+        android:id="@+id/user_user_fragment"
+        android:name="com.hujiejeff.wanandroid.module.user.ui.user.UserFragment"
+        android:label="UserFragment" />
+</navigation>

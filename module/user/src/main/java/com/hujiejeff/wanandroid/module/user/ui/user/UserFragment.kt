@@ -1,4 +1,4 @@
-package com.hujiejeff.wanandroid.module.user.ui
+package com.hujiejeff.wanandroid.module.user.ui.user
 
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hujiejeff.wanadnroid.module.base.base.BaseFragment

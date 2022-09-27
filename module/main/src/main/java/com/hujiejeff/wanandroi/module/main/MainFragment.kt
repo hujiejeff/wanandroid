@@ -1,13 +1,15 @@
 package com.hujiejeff.wanandroi.module.main
 
 import android.widget.ImageView
+import androidx.core.net.toUri
+import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.bumptech.glide.Glide
 import com.hujiejeff.wanadnroid.module.base.base.BaseMvvmFragment
 import com.hujiejeff.wanadnroid.module.base.base.adapter.BaseAdapter
 import com.hujiejeff.wanadnroid.module.base.base.adapter.BaseViewBindingHolder
@@ -16,9 +18,7 @@ import com.hujiejeff.wanadnroid.module.base.ext.loadUrl
 import com.hujiejeff.wanandroi.module.main.databinding.MainFragmentHomeBinding
 import com.hujiejeff.wanandroi.module.main.databinding.MainIncludeFragmentHomeHeaderBinding
 import com.hujiejeff.wanandroid.module.common.databinding.ItemArticleBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.withContext
+import kotlinx.android.synthetic.main.main_include_fragment_home_header.*
 import network.bean.ArticleBean
 import network.bean.BannerBean
 
@@ -40,11 +40,22 @@ class MainFragment : BaseMvvmFragment<MainFragmentHomeBinding, MainViewModel>() 
             image.loadUrl(model!!.imagePath)
         }
         mHeaderBinding.banner.setAdapter(adapter)
+        refreshLayout.setOnLoadMoreListener {
+            mViewModel.loadMore()
+        }
+        refreshLayout.setOnRefreshListener {
+            mViewModel.refresh()
+        }
+        mHeaderBinding.tvJetpack.setOnClickListener {
+            val request = NavDeepLinkRequest.Builder
+                .fromUri("http://www.wanandroid.com/setting/".toUri())
+                .build()
+            findNavController().navigate(request)
+        }
     }
 
     override fun initData() {
         super.initData()
-        mViewModel.requestData()
         mViewModel.banner.observe(this@MainFragment) {
             mHeaderBinding.banner.setData(it, null)
         }
@@ -54,6 +65,8 @@ class MainFragment : BaseMvvmFragment<MainFragmentHomeBinding, MainViewModel>() 
         dataState.collect {
             (mBinding.recyclerView.adapter as Adapter).setList(it.articles)
 //            mHeaderBinding.banner.setData(it.banner, null) //todo banner有问题
+            mBinding.refreshLayout.finishLoadMore()
+            mBinding.refreshLayout.finishRefresh()
         }
     }
 

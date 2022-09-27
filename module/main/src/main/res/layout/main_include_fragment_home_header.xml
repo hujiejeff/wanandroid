@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
     <cn.bingoogolapple.bgabanner.BGABanner
-        android:background="#000"
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="200dp"
