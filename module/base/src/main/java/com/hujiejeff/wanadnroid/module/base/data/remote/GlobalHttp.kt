@@ -2,6 +2,7 @@ package com.hujiejeff.wanadnroid.module.base.data.remote
 
 import com.hujiejeff.wanadnroid.module.base.data.remote.interceptor.NetStateInterceptor
 import okhttp3.Interceptor
+import retrofit2.CallAdapter
 
 /*
 class GlobalHttp private constructor(): HttpAbstract() {
@@ -31,6 +32,7 @@ class GlobalHttp private constructor(): HttpAbstract() {
 
 object GlobalHttp : HttpAbstract() {
     override fun getInterceptors(): List<Interceptor> = listOf(NetStateInterceptor())
+    override fun getCallAdapterFactory(): CallAdapter.Factory? = null
     fun build(baseUrl: String): GlobalHttp {
         this.baseUrl = baseUrl
         return this

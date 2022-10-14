@@ -1,16 +1,13 @@
 package com.hujiejeff.wanandroi.module.main
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hujiejeff.wanadnroid.module.base.base.BaseViewModel
+import com.hujiejeff.wanadnroid.module.base.base.ext.netLaunch
 import com.hujiejeff.wanadnroid.module.base.data.remote.bean.BaseBean
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import network.DataModel
 import network.bean.ArticleBean
 import network.bean.BannerBean
@@ -25,10 +22,10 @@ class MainViewModel : BaseViewModel() {
 
     val banner = MutableLiveData<List<BannerBean>>()
 
-    private fun startUp() {
-        viewModelScope.launch {
-            pageStateFlow.collect {page->
-                var bannerJob:
+    private fun startUp() = viewModelScope.launch {
+
+        pageStateFlow.collect { page ->
+/*                var bannerJob:
                         Deferred<BaseBean<List<BannerBean>>>? = null
                 if (page.value == 0) {
                     bannerJob = async(Dispatchers.IO) { DataModel.getBanners() }
@@ -47,8 +44,29 @@ class MainViewModel : BaseViewModel() {
                         addAll(articlesBean.data!!.datas)
                     }
                     refreshDataState(list)
-                }
-            }
+                }*/
+
+            netLaunch(
+                before = {
+                    Log.d("hujie", "startUp: loading")
+                },
+                async = {
+                    DataModel.getMainArticles(page.value)
+                },
+                fail = {
+                    Log.d("hujie", "startUp: failed")
+                },
+                success = {
+                    if (page.value == 0) {
+                        refreshDataState(it.datas)
+                    } else {
+                        val list = mutableListOf<ArticleBean>().apply {
+                            addAll(dataState.value.articles)
+                            addAll(it.datas)
+                        }
+                        refreshDataState(list)
+                    }
+                })
         }
     }
 

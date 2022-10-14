@@ -3,9 +3,11 @@ package com.hujiejeff.wanadnroid.module.base.data.remote
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.CallAdapter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+
 
 abstract class HttpAbstract {
     companion object {
@@ -54,5 +56,6 @@ abstract class HttpAbstract {
     }
 
     abstract fun getInterceptors(): List<Interceptor>
+    abstract fun getCallAdapterFactory(): CallAdapter.Factory?
     abstract val baseUrl: String
 }
