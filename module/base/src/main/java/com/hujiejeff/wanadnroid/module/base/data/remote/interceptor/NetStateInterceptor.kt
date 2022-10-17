@@ -10,9 +10,9 @@ class NetStateInterceptor : Interceptor {
     private val gson = Gson()
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        var response = chain.proceed(request)
+        var response = chain.proceed(request)//TODO UnknownHostException
         val errorBean: BaseBean<*>
-        if (response.code != 200) {
+        if (response.code !in 200..299) {
             errorBean = BaseBean(null, -1, "网络出错")
             val errorBody = gson.toJson(errorBean).toResponseBody()
             response = response.newBuilder().body(errorBody).build()

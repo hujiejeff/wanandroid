@@ -25,27 +25,6 @@ class MainViewModel : BaseViewModel() {
     private fun startUp() = viewModelScope.launch {
 
         pageStateFlow.collect { page ->
-/*                var bannerJob:
-                        Deferred<BaseBean<List<BannerBean>>>? = null
-                if (page.value == 0) {
-                    bannerJob = async(Dispatchers.IO) { DataModel.getBanners() }
-                }
-                val articlesJob = async(Dispatchers.IO) { DataModel.getMainArticles(page.value) }
-                bannerJob?.run {
-                    val bannerBean: BaseBean<List<BannerBean>> = bannerJob.await()
-                    banner.value = bannerBean.data!!
-                }
-                val articlesBean: BaseBean<PageBean<ArticleBean>> = articlesJob.await()
-                if (page.value == 0) {
-                    refreshDataState(articlesBean.data!!.datas)
-                } else {
-                    val list = mutableListOf<ArticleBean>().apply {
-                        addAll(dataState.value.articles)
-                        addAll(articlesBean.data!!.datas)
-                    }
-                    refreshDataState(list)
-                }*/
-
             netLaunch(
                 before = {
                     Log.d("hujie", "startUp: loading")
@@ -66,6 +45,16 @@ class MainViewModel : BaseViewModel() {
                         }
                         refreshDataState(list)
                     }
+                })
+            netLaunch(
+                async = {
+                    DataModel.getBanners()
+                },
+                success = {
+                    banner.value = it
+                },
+                fail = {
+                    //show banner load failed message
                 })
         }
     }
