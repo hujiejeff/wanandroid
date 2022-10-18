@@ -28,6 +28,10 @@ class MainFragment : BaseMvvmFragment<MainFragmentHomeBinding, MainViewModel>() 
         MainIncludeFragmentHomeHeaderBinding.inflate(layoutInflater)
     }
     override fun MainFragmentHomeBinding.initView() {
+        //处理重新创建问题
+        if (recyclerView.adapter != null) {
+            return
+        }
         recyclerView.run {
             adapter = Adapter().apply {
                 addHeaderView(mHeaderBinding.root)
@@ -48,7 +52,7 @@ class MainFragment : BaseMvvmFragment<MainFragmentHomeBinding, MainViewModel>() 
         }
         mHeaderBinding.tvJetpack.setOnClickListener {
             val request = NavDeepLinkRequest.Builder
-                .fromUri("http://www.wanandroid.com/setting/".toUri())
+                .fromUri("wanandroid://setting/".toUri())
                 .build()
             findNavController().navigate(request)
         }
