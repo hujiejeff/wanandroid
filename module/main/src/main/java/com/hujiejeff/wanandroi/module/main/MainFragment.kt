@@ -1,8 +1,13 @@
 package com.hujiejeff.wanandroi.module.main
 
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.navigation.NavDeepLinkRequest
+import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -10,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.bingoogolapple.bgabanner.BGABanner
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.hujiejeff.wanadnroid.module.base.base.BaseMvvmFragment
 import com.hujiejeff.wanadnroid.module.base.base.adapter.BaseAdapter
 import com.hujiejeff.wanadnroid.module.base.base.adapter.BaseViewBindingHolder
@@ -35,6 +42,9 @@ class MainFragment : BaseMvvmFragment<MainFragmentHomeBinding, MainViewModel>() 
         recyclerView.run {
             adapter = Adapter().apply {
                 addHeaderView(mHeaderBinding.root)
+                setOnItemClickListener { adapter, view, position ->
+                    jumpH5((adapter as Adapter).data[position].link)
+                }
             }
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             itemAnimator = DefaultItemAnimator()
@@ -56,6 +66,13 @@ class MainFragment : BaseMvvmFragment<MainFragmentHomeBinding, MainViewModel>() 
                 .build()
             findNavController().navigate(request)
         }
+    }
+
+    private fun jumpH5(url: String) {
+        val request = NavDeepLinkRequest.Builder
+            .fromUri("wanandroid://webview?url=${url}".toUri())
+            .build()
+        findNavController().navigate(request)
     }
 
     override fun initData() {

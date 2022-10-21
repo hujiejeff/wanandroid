@@ -6,4 +6,5 @@
     <include app:graph="@navigation/entry_nav_graph" />
     <include app:graph="@navigation/user_module_nav" />
     <include app:graph="@navigation/main_nav" />
+    <include app:graph="@navigation/base_nav" />
 </navigation>
