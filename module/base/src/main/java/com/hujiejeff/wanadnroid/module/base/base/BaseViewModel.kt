@@ -7,10 +7,10 @@ abstract class BaseViewModel: ViewModel() {
     val loadingStateFlow = MutableStateFlow(LoadingState.Loading)
     val pageStateFlow = MutableStateFlow(PageState(0))
 
-    fun loadMore() {
+    open fun loadMore() {
         pageStateFlow.value++
     }
-    fun refresh() {
+    open fun refresh() {
         pageStateFlow.value = pageStateFlow.value.reset()
     }
 

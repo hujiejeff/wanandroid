@@ -1,5 +1,9 @@
 package network.bean
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class TreeBean(
     val children: List<TreeBean>,
     val courseId: Int,
@@ -9,4 +13,4 @@ data class TreeBean(
     val parentChapterId: Int,
     val userControlSetTop: Boolean,
     val visible: Int
-)
+): Parcelable
