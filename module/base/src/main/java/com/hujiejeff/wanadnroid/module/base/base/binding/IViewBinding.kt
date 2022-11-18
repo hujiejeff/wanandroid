@@ -5,5 +5,5 @@ import androidx.viewbinding.ViewBinding
 
 interface IViewBinding<VB: ViewBinding> {
     val mBinding: VB
-    val rootView: View
+    val mRootView: View
 }
